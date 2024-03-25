@@ -6,36 +6,21 @@
   }
   
   .card {
-    width: 700px;
+    width: 800px;
     max-width: 100%;
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
-    border-radius: 20px;
-  }
-  label {
-    margin-bottom: 0.5rem;
   }
   
-  input {
-    margin-bottom: 1rem;
-  }
-  
-  button {
-    margin-top: 1rem;
-  }
-
-  
-
   .image-container {
     width: 50%;
     background-color: #ccc;
-    position: relative; /* Se agrega esta propiedad */
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-
   }
   
   img {
@@ -43,18 +28,15 @@
     height: 100%;
     object-fit: cover;
   }
-  form{
-    display: flex;
-    flex-direction: column;
-  }
+  
   .text-container {
-    position: absolute; /* Se agrega esta propiedad */
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     color: #fff;
-    z-index: 1; /* Se agrega esta propiedad */
+    z-index: 1;
   }
   
   h2 {
@@ -77,12 +59,30 @@
   
   .form-container {
     width: 50%;
-    padding: 2rem;
+    padding: 3rem;
+  }
+  
+  .form-container h1 {
+    text-align: center;
   }
   
   .social-login {
     margin-top: 1rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   
+  .links {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  p {
+    margin: 0;
+  }
+  
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
