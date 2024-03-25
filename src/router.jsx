@@ -19,6 +19,8 @@ export const router = createBrowserRouter([
         element: <Signuppage />
     },
 
+    
+
 
 
 ])
