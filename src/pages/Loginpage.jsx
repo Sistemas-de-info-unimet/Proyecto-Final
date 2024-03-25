@@ -12,14 +12,14 @@ export default function Loginpage() {
             <button type="submit">Iniciar sesión</button>
           </form>
         </div>
-        {/* <div className="image-container">
+        <div className="image-container">
           <img src="https://www.unimet.edu.ve/wp-content/uploads/2023/09/Ingenieria-de-Sistemas.jpg" alt="Imagen de fondo"></img>
           <div className="text-container">
             <h2>¿Aún no tienes cuenta?</h2>
             <p>Crea tu cuenta en pocos pasos:</p>
             <button type="button">Crear cuenta</button>
           </div>
-      </div> */}
+      </div> 
       </div>
     );
 
