@@ -5,8 +5,8 @@
     align-items: center;
   }
   
-  .card1 {
-    width: 800px;
+  .card3 {
+    width: 600px;
     max-width: 100%;
     background-color: #FFAB59;
     border-radius: 4px;
@@ -66,25 +66,7 @@
     text-align: center;
   }
   
-  .social-login {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .links {
-    margin-top: 1rem;
-    text-align: center;
-  }
-  
-  p {
-    margin: 0;
-  }
-  
   a {
     color: #000;
     text-decoration: underline;
   }
-
-  

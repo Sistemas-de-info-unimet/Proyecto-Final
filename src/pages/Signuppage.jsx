@@ -2,7 +2,7 @@ import "./Signuppage.css"
 export default function Signuppage() {
     return (
         <div className="container">
-  <div className="card">
+  <div className="card1">
     <div className="image-container">
       <img src="imagen.jpg" alt="Imagen de fondo"></img>
       <div className="text-container">
