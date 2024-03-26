@@ -31,7 +31,7 @@ export default function Signuppage() {
         </div>
         <div className="links">
           <p><a href="#">Ya estás registrado? Inicia sesión</a></p>
-          <p><a href="#">¿Eres administrador? Inicia sesión como administrador</a></p>
+          <p><a href="#">¿Eres administrador Inicia sesión como administrador</a></p>
         </div>
       </form>
     </div>
