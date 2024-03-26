@@ -43,7 +43,7 @@ export default function Signuppage() {
       contra,
     });
   
-    //ESTO NO ES HOME
+    //ESTO NO ES HOME//
     window.location.href = "/";
   
     } catch (error) {
