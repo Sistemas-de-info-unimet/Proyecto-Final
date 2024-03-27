@@ -1,7 +1,9 @@
 import Header from "../components/Header";
 import { Slideshow } from "../components/banner";
 import Card from "../components/Card";
+import SearchBar from "../components/SearchBar";
 import "./Home.css";
+
 export default function Home() {
     return (
             <div>
@@ -41,6 +43,7 @@ export default function Home() {
                     text="Fomentar el conocimiento de las agrupaciones estudiantiles de la Universidad Metropolitana y facilitar la afiliación de los estudiantes a dichos grupos mediante una aplicación web."
                 />
             </div>
+            <SearchBar /> 
             </div>
             </div>
     );
