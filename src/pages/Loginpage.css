@@ -219,8 +219,32 @@ body{
 .bt-img{
     background-color: transparent;
     border: none;
+    width: 100%;
+    height: 100%;
 }
 
 .iniciacon{
     font-weight: bold;
 }
+
+.bt-img {
+    background-color: transparent; /* Remove default button background */
+    border: none; /* Remove default button border */
+    padding: 0; /* Remove default button padding */
+    cursor: pointer; /* Indicate clickable behavior */
+    flex: 0 0 auto; /* Prevent excessive shrinking */
+    width: 40px; /* Set a fixed width (adjust as needed) */
+    height: 40px; /* Set a fixed height (adjust as needed) */
+    margin: 0.5rem; /* Add some margin for spacing */
+  }
+  
+  .bt-img img {
+    width: 100%; /* Ensure image fills the button */
+    height: 100%; /* Ensure image fills the button */
+  }
+
+  .social-login {
+    display: flex; /* Arrange buttons horizontally */
+    justify-content: space-between; /* Distribute buttons evenly */
+  }
+  

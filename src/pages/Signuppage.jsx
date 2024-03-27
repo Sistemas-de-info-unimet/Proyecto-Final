@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup  } 
 import { auth } from "../Firebase";
 import { db } from "../Firebase";
 import {doc, setDoc} from "firebase/firestore";
-import FacebookLogin from "react-facebook-login/dist/facebook-login.esm";
+//import FacebookLogin from "react-facebook-login/dist/facebook-login.esm";
 
 
 export default function Signuppage() {
@@ -175,35 +175,42 @@ export default function Signuppage() {
   return (
         <div className="container">
   <div className="card1">
-    <div className="image-container">
-      <img src="imagen.jpg" alt="Imagen de fondo"></img>
-      <div className="text-container">
-        <h2>¿Aún no tienes cuenta?</h2>
-        <p>Crea tu cuenta en pocos pasos:</p>
-        <button type="button">Crear cuenta</button>
-      </div>
+    <div className="image-container2">
+      <img className="imgprin" src="https://runrun.es/wp-content/uploads/2016/09/UNIMET6.jpg" alt="Imagen de fondo"></img>
     </div>
     <div className="form-container">
-      <h1>Registro</h1>
+      <h1 className="tit2">Registro</h1>
       <form  onSubmit = {signUp}>
         <label className="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required value = {name} onChange = {(e) => setName(e.target.value)}></input>
+        <input placeholder=" Tu nombre aquí" type="text" id="nombre" name="nombre" required value = {name} onChange = {(e) => setName(e.target.value)}></input>
         <label className="apellido">Apellido</label>
-        <input type="text" id="apellido" name="apellido" required value = {lastname} onChange = {(e) => setLastname(e.target.value)}></input>
+        <input placeholder=" Tu apellido aquí" type="text" id="apellido" name="apellido" required value = {lastname} onChange = {(e) => setLastname(e.target.value)}></input>
         <label className="email">Correo electrónico</label>
-        <input type="email" id="email" name="email" required value = {email} onChange = {(e) => setEmail(e.target.value)}></input>
+        <input placeholder=" hola@tuemail.com" type="email" id="email" name="email" required value = {email} onChange = {(e) => setEmail(e.target.value)}></input>
         <label className="telefono">Teléfono</label>
-        <input type="tel" id="telefono" name="telefono" required value = {tlf} onChange = {(e) => setTlf(e.target.value)}></input>
+        <input placeholder=" +58-414-555-5555" type="tel" id="telefono" name="telefono" required value = {tlf} onChange = {(e) => setTlf(e.target.value)}></input>
         <label className="password">Contraseña</label>
-        <input type="password" id="password" name="password" required value = {password} onChange = {(e) => setPassword(e.target.value)}></input>
-        <button type="submit">Registrarse</button>
-        <div className="social-login">
-          <button type="button" onClick={registerWithGoogle}>Registrarse con Google</button>
-          <button type="button" onClick = {RegisterWithFacebook}>Registrarse con Facebook</button>
+        <input placeholder="***************" type="password" id="password" name="password" required value = {password} onChange = {(e) => setPassword(e.target.value)}></input>
+        <div className="cont-bot">
+        <button className="bot-iniciars" type="submit">Registrarse</button>
         </div>
+        <div className="txt-inicias">        
+            <br></br>
+            <br></br>
+            <p className="iniciacon">Inicia sesión con:</p>
+        </div>
+        <div className="social-login">
+          <button className="bt-img" type="button" onClick={registerWithGoogle}>
+            <img src="./images/icono_google.png" alt="Google"></img>
+          </button>
+          <button className="bt-img" type="button" onClick = {RegisterWithFacebook}>
+            <img src="./images/icono_facebook.png" alt="Facebook"></img>
+          </button>
+        </div>
+        
         <div className="links">
-          <p><a href="#">Ya estás registrado? Inicia sesión</a></p>
-          <p><a href="#">¿Eres administrador? Inicia sesión como administrador</a></p>
+          <p className="admin-link">Ya estás registrado? <a className="admin-link" href="/LogIn">Inicia sesión</a></p>
+          <p className="admin-link">¿Eres administrador? <a className="admin-link" href="/LogInAdmin">Inicia sesión como administrador</a></p>
         </div>
       </form>
     </div>
