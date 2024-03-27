@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import { Slideshow } from "../components/banner";
 import Card from "../components/Card";
 import SearchBar from "../components/SearchBar";
+import GroupsCarousel from "../components/GroupsCarousel";
 import "./Home.css";
 
 export default function Home() {
@@ -44,6 +45,7 @@ export default function Home() {
                 />
             </div>
             <SearchBar /> 
+            <GroupsCarousel />
             </div>
             </div>
     );
