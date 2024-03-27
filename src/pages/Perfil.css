@@ -114,7 +114,7 @@
     text-align: center;
   }
 
-  h1 {
+  .right-section h1 {
     color: black;
     font-family: "Inter-SemiBold", Helvetica;
     font-size: 75px;
@@ -126,7 +126,7 @@
     line-height: 28px;
   }
 
-  h2 {
+  .right-section h2 {
     color: black;
     font-family: "Inter-SemiBold", Helvetica;
     font-size: 60px;
@@ -138,7 +138,7 @@
     line-height: 28px;
   }
 
-  input {
+  .perfil-container input {
     border-radius: 7px;
     border-color: rgb(154, 154, 154);
     background-color: rgb(255, 248, 235);
@@ -162,7 +162,7 @@
     display: flex;
   }
 
-  p {
+  .right-section p {
     margin-top: 0;
     margin-right: 20px;
     margin-bottom: 20px;
@@ -225,7 +225,7 @@
   }
 
 
-  button {
+  .left-section button {
     display: flex;
     background-color: black;
     border-radius: 5px;
