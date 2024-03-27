@@ -7,7 +7,7 @@ import GroupCards from "../components/GroupCards";
 
 export default function Home() {
     return (
-            <div>
+            <div className="Contenedor">
                 <Header/>
                 <Slideshow/>
                 <div style={{
