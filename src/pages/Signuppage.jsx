@@ -1,6 +1,6 @@
 import "./Signuppage.css";
 import React, {useState} from "react";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup  } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
 import { auth } from "../Firebase";
 import { db } from "../Firebase";
 import {doc, setDoc} from "firebase/firestore";
@@ -43,12 +43,12 @@ export default function Signuppage() {
       contra,
     });
   
-    //ESTO NO ES HOME//
-    window.location.href = "/";
+
+    window.location.href = "/Home";
   
     } catch (error) {
       console.log(error);
-      window.alert("Error. Opciones: 1)Correo inválido. 2)Correo en uso. 3)Contraseña menor a 6 caracteres.");
+      window.alert("Error. 1)Correo en uso. 2)Contraseña menor a 6 caracteres.");
       
     }
 
@@ -81,7 +81,7 @@ export default function Signuppage() {
           const isValidEmail = user.email && user.email.endsWith("@correo.unimet.edu.ve");
 
           if (!isValidEmail) {
-            alert("Solo se permiten correos electrónicos que terminen en @correo.unimet.edu.ve");
+            alert("Solo se permiten correos UNIMET");
             return; // salir si no es correo unimet
           }
 
@@ -100,7 +100,7 @@ export default function Signuppage() {
           fdp: "https://www.cenieh.es/sites/default/files/default_images/Foto%20perfil%20anonimo_0.png",
           suscripciones: [],
           });
-          window.location.href = "/"; 
+          window.location.href = "/Home"; 
 
         } catch (error) {
           console.log(error);
@@ -108,68 +108,55 @@ export default function Signuppage() {
     };
   
   // REGISTRAR CON FACEBOOK
-  const RegisterWithFacebook = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
   
-    const handleFacebookLogin = (response) => {
-      setLoading(true);
+  const registerWithFacebook = async () => {
+    try {
+      // Crea un proveedor de Facebook
+      const provider = new FacebookAuthProvider();
   
-      const { accessToken, userID } = response;
-      const credential = FacebookAuthProvider.credential(accessToken);
+      // Inicia sesión con Facebook
+      const result = await signInWithPopup(auth, provider);
   
-      // Obtener el correo electrónico del usuario
-      const email = response.email;
+      // Obtiene el usuario de la respuesta
+      const user = result.user;
   
-      // Validar el correo electrónico
-      const isValidEmail = email && email.endsWith("@correo.unimet.edu.ve");
+      // Valida que el correo sea UNIMET
+      const isValidEmail = user.email && user.email.endsWith("@correo.unimet.edu.ve");
   
       if (!isValidEmail) {
-        setError("Solo se permiten correos electrónicos que terminen en @correo.unimet.edu.ve");
-        setLoading(false);
-        return; // Salir de la función si el correo electrónico no es válido
+        alert("Solo se permiten correos UNIMET");
+        return; // Salir si no es correo UNIMET
       }
   
-      auth
-        .signInWithCredential(credential)
-        .then((userCredential) => {
-          // Registrar usuario en Firestore
-          const uid = user.uid;
-          const nombre = user.displayName;
-          const email = user.email;
-          const apellido = "";
-          const telefono = "";
-          const usuariosRef = doc(db, "estudiantes", uid);
-          setDoc(usuariosRef, {
-            nombre,
-            apellido,
-            telefono,
-            email,
-            fdp: "https://www.cenieh.es/sites/default/files/default_images/Foto%20perfil%20anonimo_0.png",
-            suscripciones: [],
-          });
+      // Obtiene el ID del usuario, nombre, correo electrónico
+      const uid = user.uid;
+      const nombre = user.displayName;
+      const email = user.email;
   
-          // Redirigir a la página de inicio
-          window.location.href = "/";
-        })
-        .catch((error) => {
-          setError(error.message);
-          setLoading(false);
-        });
-    };
+      // Inicializa variables para apellido y teléfono
+      const apellido = "";
+      const telefono = "";
   
-    return (
-      <div>
-        {loading && <p>Cargando...</p>}
-        {error && <p>{error}</p>}
-        <FacebookLogin
-          appId="YOUR_FACEBOOK_APP_ID"
-          autoLoad={false}
-          fields="name,email,picture"
-          callback={handleFacebookLogin}
-        />
-      </div>
-    );
+      // Crea una referencia al documento del usuario en Firebase
+      const usuariosRef = doc(db, "Estudiante", uid);
+  
+      // Establece los datos del usuario en el documento
+      await setDoc(usuariosRef, {
+        nombre,
+        apellido,
+        telefono,
+        email,
+        fdp: "https://www.cenieh.es/sites/default/files/default_images/Foto%20perfil%20anonimo_0.png",
+        suscripciones: [],
+      });
+  
+      // Redirige a la página principal
+      window.location.href = "/Home";
+  
+    } catch (error) {
+      alert("Correo ya registrado");
+      console.log(error);
+    }
   };
   
   return (
@@ -203,7 +190,7 @@ export default function Signuppage() {
           <button className="bt-img" type="button" onClick={registerWithGoogle}>
             <img src="./images/icono_google.png" alt="Google"></img>
           </button>
-          <button className="bt-img" type="button" onClick = {RegisterWithFacebook}>
+          <button className="bt-img" type="button" onClick = {registerWithFacebook}>
             <img src="./images/icono_facebook.png" alt="Facebook"></img>
           </button>
         </div>
