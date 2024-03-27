@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { db } from '../Firebase'; 
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { Slide } from 'react-slideshow-image';
