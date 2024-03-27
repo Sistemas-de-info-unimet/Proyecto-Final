@@ -4,7 +4,6 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, Fa
 import { auth } from "../Firebase";
 import { db } from "../Firebase";
 import {doc, setDoc} from "firebase/firestore";
-//import FacebookLogin from "react-facebook-login/dist/facebook-login.esm";
 
 
 export default function Signuppage() {
@@ -109,55 +108,55 @@ export default function Signuppage() {
   
   // REGISTRAR CON FACEBOOK
   
-  const registerWithFacebook = async () => {
-    try {
-      // Crea un proveedor de Facebook
-      const provider = new FacebookAuthProvider();
+  // const registerWithFacebook = async () => {
+  //   try {
+  //     // Crea un proveedor de Facebook
+  //     const provider = new FacebookAuthProvider();
   
-      // Inicia sesión con Facebook
-      const result = await signInWithPopup(auth, provider);
+  //     // Inicia sesión con Facebook
+  //     const result = await signInWithPopup(auth, provider);
   
-      // Obtiene el usuario de la respuesta
-      const user = result.user;
+  //     // Obtiene el usuario de la respuesta
+  //     const user = result.user;
   
-      // Valida que el correo sea UNIMET
-      const isValidEmail = user.email && user.email.endsWith("@correo.unimet.edu.ve");
+  //     // Valida que el correo sea UNIMET
+  //     const isValidEmail = user.email && user.email.endsWith("@correo.unimet.edu.ve");
   
-      if (!isValidEmail) {
-        alert("Solo se permiten correos UNIMET");
-        return; // Salir si no es correo UNIMET
-      }
+  //     if (!isValidEmail) {
+  //       alert("Solo se permiten correos UNIMET");
+  //       return; // Salir si no es correo UNIMET
+  //     }
   
-      // Obtiene el ID del usuario, nombre, correo electrónico
-      const uid = user.uid;
-      const nombre = user.displayName;
-      const email = user.email;
+  //     // Obtiene el ID del usuario, nombre, correo electrónico
+  //     const uid = user.uid;
+  //     const nombre = user.displayName;
+  //     const email = user.email;
   
-      // Inicializa variables para apellido y teléfono
-      const apellido = "";
-      const telefono = "";
+  //     // Inicializa variables para apellido y teléfono
+  //     const apellido = "";
+  //     const telefono = "";
   
-      // Crea una referencia al documento del usuario en Firebase
-      const usuariosRef = doc(db, "Estudiante", uid);
+  //     // Crea una referencia al documento del usuario en Firebase
+  //     const usuariosRef = doc(db, "Estudiante", uid);
   
-      // Establece los datos del usuario en el documento
-      await setDoc(usuariosRef, {
-        nombre,
-        apellido,
-        telefono,
-        email,
-        fdp: "https://www.cenieh.es/sites/default/files/default_images/Foto%20perfil%20anonimo_0.png",
-        suscripciones: [],
-      });
+  //     // Establece los datos del usuario en el documento
+  //     await setDoc(usuariosRef, {
+  //       nombre,
+  //       apellido,
+  //       telefono,
+  //       email,
+  //       fdp: "https://www.cenieh.es/sites/default/files/default_images/Foto%20perfil%20anonimo_0.png",
+  //       suscripciones: [],
+  //     });
   
-      // Redirige a la página principal
-      window.location.href = "/Home";
+  //     // Redirige a la página principal
+  //     window.location.href = "/Home";
   
-    } catch (error) {
-      alert("Correo ya registrado");
-      console.log(error);
-    }
-  };
+  //   } catch (error) {
+  //     alert("Correo ya registrado");
+  //     console.log(error);
+  //   }
+  // };
   
   return (
         <div className="container">
@@ -190,7 +189,7 @@ export default function Signuppage() {
           <button className="bt-img" type="button" onClick={registerWithGoogle}>
             <img src="./images/icono_google.png" alt="Google"></img>
           </button>
-          <button className="bt-img" type="button" onClick = {registerWithFacebook}>
+          <button className="bt-img" type="button">
             <img src="./images/icono_facebook.png" alt="Facebook"></img>
           </button>
         </div>
