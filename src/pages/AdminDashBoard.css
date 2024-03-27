@@ -1,0 +1,31 @@
+.Header{
+    background: #FF7F01;
+    display: flex;
+    width: 1441px;
+    align-items: flex-start;
+}
+.AdminInfo{
+    fill: #FEFAF7;
+}
+.GroupsSection{
+    fill: #FEFAF7;
+}
+input{
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 15px;
+    border: 1px solid #FFF;
+    background: rgba(253, 235, 218, 0.30);
+}
+button{
+    display: inline-flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    background: #FF7F01;
+    color: #FFF;
+}
