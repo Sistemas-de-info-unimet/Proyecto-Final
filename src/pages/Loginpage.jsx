@@ -45,7 +45,7 @@ export default function Loginpage() {
         </button>
       </div>
       <div className="preg">
-      <p className="admin-link">¿Eres administrador? <a className="linkpagadmin" href="/LogInAdmin">Inicia sesión aquí</a></p>
+      <p className="admin-link">¿Eres administrador? <a className="linkpagadmin" href="/AdminLogin">Inicia sesión aquí</a></p>
       </div>
     </div>
   </div>
