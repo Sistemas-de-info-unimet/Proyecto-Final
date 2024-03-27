@@ -15,4 +15,17 @@
     background-color: #F0F0F0; /* Color de la elipse */
     z-index: 0;
   }
+
+section{
+  background-color: #F0F0F0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.titulo{
+  margin-top: 50px;
+  color: #ff7f00;
+  font-size: xx-large;
+  text-align: center;
+}
   
