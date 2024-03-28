@@ -10,7 +10,7 @@ export default function LoginAdminpage() {
       <h1 className="tit3">Iniciar sesión como Admin.</h1>
       <form>
         <label className="email">Correo electrónico</label>
-        <input placeholder=" hola@tuemail.com" type="email" id="email" name="email" required></input>
+        <input placeholder=" hola@tuemail.com" type="email" id="email" name="email" required ></input>
         <label className="password">Contraseña</label>
         <input placeholder="***************" type="password" id="password" name="password" required></input>
         <label className="identificador">Identificador</label>
@@ -24,7 +24,7 @@ export default function LoginAdminpage() {
       <div className="preg">
       <br></br>
       <br></br>
-      <p  className="admin-link">¿Eres estudiante? <a  className="admin-link" href="/">Inicia sesión aquí</a></p>
+      <p  className="admin-link">¿Eres estudiante? <a  className="admin-link" href="/Signup">Inicia sesión aquí</a></p>
       </div>
     </div>
   </div>
