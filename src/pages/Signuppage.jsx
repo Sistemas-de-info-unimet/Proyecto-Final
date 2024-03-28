@@ -204,7 +204,7 @@ export default function Signuppage() {
         <div className="container">
   <div className="card1">
     <div className="image-container2">
-      <img className="imgprin" src="https://runrun.es/wp-content/uploads/2016/09/UNIMET6.jpg" alt="Imagen de fondo"></img>
+      <img className="imgprin" src="https://pbs.twimg.com/media/DgI8uGgX4AA4XkR.jpg" alt="Imagen de fondo"></img>
     </div>
     <div className="form-container">
       <h1 className="tit2">Registro</h1>
