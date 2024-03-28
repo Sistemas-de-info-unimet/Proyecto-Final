@@ -6,6 +6,9 @@ import Home from "./pages/Home";
 import LoginAdminPage from "./pages/LoginAdminpage";
 
 
+
+
+
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -31,5 +34,7 @@ export const router = createBrowserRouter([
         path: '/AdminLogin',
         element: <LoginAdminPage />
     },
+
+
 
 ])

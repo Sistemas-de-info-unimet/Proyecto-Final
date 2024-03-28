@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, Fa
 import { auth } from "../Firebase";
 import { db } from "../Firebase";
 import {doc, setDoc} from "firebase/firestore";
+import Swal from 'sweetalert2';
 
 
 export default function Signuppage() {
@@ -21,7 +22,12 @@ export default function Signuppage() {
     const emailIsValid = validateEmail(email);
 
     if (!emailIsValid) {
-      alert("El correo electrónico no es válido");
+      Swal.fire({
+        title: '¡Error!',
+        text: 'El correo electrónico ingresado no es válido',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
       return;
     }
 
@@ -47,7 +53,13 @@ export default function Signuppage() {
   
     } catch (error) {
       console.log(error);
-      window.alert("Error. 1)Correo en uso. 2)Contraseña menor a 6 caracteres.");
+      Swal.fire({
+        title: '¡Error!',
+        text: 'Correo en uso o contraseña menor a 6 caracteres.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+
       
     }
 
@@ -80,7 +92,12 @@ export default function Signuppage() {
           const isValidEmail = user.email && user.email.endsWith("@correo.unimet.edu.ve");
 
           if (!isValidEmail) {
-            alert("Solo se permiten correos UNIMET");
+            Swal.fire({
+              title: '¡Error!',
+              text: 'Solo se permiten correos UNIMET',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            })
             return; // salir si no es correo unimet
           }
 
