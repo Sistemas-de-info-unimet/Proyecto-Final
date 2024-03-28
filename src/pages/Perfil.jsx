@@ -47,9 +47,10 @@ export default function Profile() {
 
 import { useState, useEffect } from 'react';
 import { db } from '../Firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, getDocs, collection, where, query } from 'firebase/firestore';
 import '../pages/Perfil.css';
 import { auth } from '../Firebase';
+import Swal from 'sweetalert2';
 
 export default function Perfil() {
   const [perfilUsuario, setPerfilUsuario] = useState(null);
@@ -57,6 +58,7 @@ export default function Perfil() {
   const [mostrarCuadroTexto, setMostrarCuadroTexto] = useState(false);
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [userId, setUserId] = useState('');
+  const [nombresGrupos, setNombresGrupos] = useState([]);
 
   useEffect(() => {
     const obtenerPerfilUsuario = async () => {
@@ -91,6 +93,27 @@ export default function Perfil() {
       setTelefono(perfilUsuario.telefono);
       setCorreo(perfilUsuario.email);
     }
+
+    const obtenerNombresGrupos = async () => {
+      try {
+        const suscripciones = perfilUsuario.suscripciones; // Obtén el array de suscripciones del perfil del usuario
+        console.log(suscripciones)
+        const gruposRef = collection(db, 'Agrupaciones');
+        const q = query(gruposRef, where('id', 'in', suscripciones)); // Consulta los grupos cuyos IDs están en el array de suscripciones
+  
+        const querySnapshot = await getDocs(q);
+        const nombres = querySnapshot.docs.map((doc) => doc.data().nombre); // Obtiene los nombres de los grupos
+  
+        setNombresGrupos(nombres);
+      } catch (error) {
+        console.error('Error al obtener los nombres de los grupos:', error);
+      }
+    };
+  
+    if (perfilUsuario && perfilUsuario.suscripciones) {
+      obtenerNombresGrupos();
+    }
+
   }, [perfilUsuario]);
 
   const [nombre, setNombre] = useState('');
@@ -194,6 +217,36 @@ export default function Perfil() {
 
   const handleActualizarPerfil = async () => {
     try {
+
+      const isValidEmail = correo && correo.endsWith("@correo.unimet.edu.ve");
+
+          if (!isValidEmail) {
+            Swal.fire({
+              title: '¡Error!',
+              text: 'Solo se permiten correos UNIMET',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            })
+            return; // salir si no es correo unimet
+          }
+
+          //verificamos que no exista una cuenta registrada a ese correo unimet:
+          const querySnapshot = await getDocs(query(collection(db, 'Estudiante'), where('email', '==', correo)));
+          console.log(querySnapshot.empty);
+          console.log(querySnapshot.docs.map((doc) => doc.data()));
+
+          const filteredDocs = querySnapshot.docs.filter(doc => doc.id !== userId);
+
+          if (filteredDocs.length !== 0) {
+            Swal.fire({
+              title: '¡Error!',
+              text: 'Correo ya registrado',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+            return;
+          }      
+
       const docRef = doc(db, 'Estudiante', userId);
       console.log(userId)
       await updateDoc(docRef, {
@@ -289,7 +342,14 @@ export default function Perfil() {
         ) : (
           <p>Cargando perfil de usuario...</p>
         )}
-        <h2>Tus Grupos</h2>
+          <>
+            <h2>Tus Grupos</h2>
+            <ul>
+              {nombresGrupos.map((nombre, index) => (
+                <li key={index}>{nombre}</li>
+              ))}
+            </ul>
+          </>
         </div>
       </section>
     </div>
