@@ -25,7 +25,6 @@ export const Slideshow = () => {
           </div>
         ))}
       </Fade>
-      {/* Logo ajustado para aparecer sobre las imágenes del carrusel */}
       <img src={Logo} alt="Logo" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 2, height: '150px', width: '300px' }} />
     </div>
   )
