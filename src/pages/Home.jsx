@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import SearchBar from "../components/SearchBar";
 import "./Home.css";
 import GroupCards from "../components/GroupCards";
+import Footer from "../components/Footer";
 
 export default function Home() {
     return (
@@ -50,6 +51,7 @@ export default function Home() {
                 <h1 className="titulo">Agrupaciones Estudiantiles</h1>
                 <GroupCards/>
             </section>
+            <Footer/>
             </div>
     );
 
