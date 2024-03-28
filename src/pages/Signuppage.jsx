@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updatePassword } from "firebase/auth";
 import { auth } from "../Firebase";
 import { db } from "../Firebase";
-import {doc, setDoc} from "firebase/firestore";
+import {doc, setDoc, getDoc} from "firebase/firestore";
 import Swal from 'sweetalert2';
 
 
@@ -98,6 +98,18 @@ export default function Signuppage() {
               confirmButtonText: 'OK'
             })
             return; // salir si no es correo unimet
+          }
+
+          //verificamos que no exista una cuenta registrada a ese correo unimet:
+          const userDoc = await getDoc(doc(db, "Estudiante", user.uid));
+
+          if (userDoc.exists()) {
+            Swal.fire({
+              title: '¡Error!',
+              text: 'Correo ya registrado',
+              icon: 'error',
+              confirmButtonText: 'OK'})
+            return
           }
           
           //contra post registro on google
