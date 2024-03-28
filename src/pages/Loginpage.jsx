@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 
 import { auth } from "../Firebase";
 import {doc, getDoc} from "firebase/firestore";
 import { db } from "../Firebase";
+import Swal from 'sweetalert2';
 
 export default function Loginpage() {
     const navigate = useNavigate();
@@ -23,7 +24,13 @@ export default function Loginpage() {
             window.location.href = "/Home";
         }).catch((error) => {
             console.log(error)
-            window.alert("Error. Opciones: 1)Correo no registrado. 2)Contraseña inválida.");
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Correo no registrado o contraseña inválida.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+              })
+            
         });
     }
 
@@ -41,7 +48,12 @@ export default function Loginpage() {
         window.location.href = "/Home";
       } else {
         // El correo electrónico no está registrado en Firestore, mostrar error
-        window.alert("Error: El correo electrónico no está registrado.");
+        Swal.fire({
+            title: '¡Error!',
+            text: 'El correo electrónico no está registrado.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          })
       }
     } catch (error) {
       console.log(error);
@@ -81,9 +93,6 @@ return (
       <div className="social-login">
         <button className="bt-img" type="button" onClick={signInWithGoogle}>
             <img src="./images/icono_google.png" alt="Google"></img>
-        </button>
-        <button className="bt-img" type="button">
-            <img src="./images/icono_facebook.png" alt="Facebook"></img>
         </button>
       </div>
       <div className="preg">
