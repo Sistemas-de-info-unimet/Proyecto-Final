@@ -178,7 +178,7 @@ export default function Signuppage() {
         </div>
         <div className="social-login">
           <button className="bt-img" type="button" onClick={registerWithGoogle}>
-            <img src="./images/icono_google.png" alt="Google"></img>
+            <img src="https://ragsdalemartin.com/wp-content/uploads/2020/07/white-google-logo.png" alt="Google"></img>
           </button>
         </div>
         
