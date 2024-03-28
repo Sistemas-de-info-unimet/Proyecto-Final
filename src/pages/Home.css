@@ -1,18 +1,17 @@
-.section-container {
-    position: relative;
-    overflow: hidden; /* Asegura que cualquier parte de la elipse fuera del contenedor no se muestre */
-  }
-  
-  .section-container::before {
-    content: "";
-    position: absolute;
-    width: 200%; /* Ancho amplio para asegurar que la elipse cubra toda la sección */
-    height: 100%; /* Altura suficiente para crear la forma de media elipse */
-    bottom: 100%; /* Posiciona la elipse en la parte superior del contenedor */
-    left: 50%;
-    transform: translateX(-50%) scaleX(0.5); /* Centra y aplana la elipse */
-    border-radius: 50%;
-    background-color: #F0F0F0; /* Color de la elipse */
-    z-index: 0;
-  }
+body{
+  margin: 0px;
+  width: 100%;
+}
+section{
+  background-color: #F0F0F0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.titulo{
+  margin-top: 50px;
+  color: #ff7f00;
+  font-size: xx-large;
+  text-align: center;
+}
   

@@ -3,10 +3,12 @@ import { Slideshow } from "../components/banner";
 import Card from "../components/Card";
 import SearchBar from "../components/SearchBar";
 import "./Home.css";
+import GroupCards from "../components/GroupCards";
+import Footer from "../components/Footer";
 
 export default function Home() {
     return (
-            <div>
+            <div className="Contenedor">
                 <Header/>
                 <Slideshow/>
                 <div style={{
@@ -26,7 +28,7 @@ export default function Home() {
                     top: '-100px',
                     zIndex: 0,
                 }}></div>
-                <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', marginTop: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', marginTop: '20px', marginBottom: '20px' }}>
                 <Card 
                     icon="https://cdn-icons-png.flaticon.com/128/9254/9254638.png"
                     title="Misión"
@@ -43,8 +45,13 @@ export default function Home() {
                     text="Fomentar el conocimiento de las agrupaciones estudiantiles de la Universidad Metropolitana y facilitar la afiliación de los estudiantes a dichos grupos mediante una aplicación web."
                 />
             </div>
-            <SearchBar /> 
             </div>
+            <section>
+                <SearchBar /> 
+                <h1 className="titulo">Agrupaciones Estudiantiles</h1>
+                <GroupCards/>
+            </section>
+            <Footer/>
             </div>
     );
 
