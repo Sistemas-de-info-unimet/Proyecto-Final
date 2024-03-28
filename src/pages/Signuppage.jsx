@@ -216,7 +216,7 @@ export default function Signuppage() {
         <label className="email">Correo electrónico</label>
         <input placeholder=" hola@tuemail.com" type="email" id="email" name="email" required value = {email} onChange = {(e) => setEmail(e.target.value)}></input>
         <label className="telefono">Teléfono</label>
-        <input placeholder=" +58-414-555-5555" type="tel" id="telefono" name="telefono" required value = {tlf} onChange = {(e) => setTlf(e.target.value)}></input>
+        <input placeholder=" 04145555555" type="tel" id="telefono" name="telefono" required value = {tlf} onChange = {(e) => setTlf(e.target.value)}></input>
         <label className="password">Contraseña</label>
         <input placeholder="***************" type="password" id="password" name="password" required value = {password} onChange = {(e) => setPassword(e.target.value)}></input>
         <div className="cont-bot">
@@ -225,14 +225,11 @@ export default function Signuppage() {
         <div className="txt-inicias">        
             <br></br>
             <br></br>
-            <p className="iniciacon">Inicia sesión con:</p>
+            <p className="iniciacon">Registrarse con:</p>
         </div>
         <div className="social-login">
           <button className="bt-img" type="button" onClick={registerWithGoogle}>
             <img src="./images/icono_google.png" alt="Google"></img>
-          </button>
-          <button className="bt-img" type="button">
-            <img src="./images/icono_facebook.png" alt="Facebook"></img>
           </button>
         </div>
         

@@ -94,9 +94,6 @@ return (
         <button className="bt-img" type="button" onClick={signInWithGoogle}>
             <img src="./images/icono_google.png" alt="Google"></img>
         </button>
-        <button className="bt-img" type="button">
-            <img src="./images/icono_facebook.png" alt="Facebook"></img>
-        </button>
       </div>
       <div className="preg">
       <p className="admin-link">¿Eres administrador? <a className="linkpagadmin" href="/AdminLogin">Inicia sesión aquí</a></p>
