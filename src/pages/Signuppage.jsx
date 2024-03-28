@@ -1,6 +1,6 @@
 import "./Signuppage.css";
 import React, {useState} from "react";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider,updatePassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updatePassword } from "firebase/auth";
 import { auth } from "../Firebase";
 import { db } from "../Firebase";
 import {doc, setDoc} from "firebase/firestore";
@@ -116,7 +116,7 @@ export default function Signuppage() {
               minlength: "6"
             }
           });
-          
+
           if (password) {
             novacio = 1;
             const uid = user.uid;
@@ -148,57 +148,6 @@ export default function Signuppage() {
         }
     };
   
-  // REGISTRAR CON FACEBOOK
-  
-  // const registerWithFacebook = async () => {
-  //   try {
-  //     // Crea un proveedor de Facebook
-  //     const provider = new FacebookAuthProvider();
-  
-  //     // Inicia sesión con Facebook
-  //     const result = await signInWithPopup(auth, provider);
-  
-  //     // Obtiene el usuario de la respuesta
-  //     const user = result.user;
-  
-  //     // Valida que el correo sea UNIMET
-  //     const isValidEmail = user.email && user.email.endsWith("@correo.unimet.edu.ve");
-  
-  //     if (!isValidEmail) {
-  //       alert("Solo se permiten correos UNIMET");
-  //       return; // Salir si no es correo UNIMET
-  //     }
-  
-  //     // Obtiene el ID del usuario, nombre, correo electrónico
-  //     const uid = user.uid;
-  //     const nombre = user.displayName;
-  //     const email = user.email;
-  
-  //     // Inicializa variables para apellido y teléfono
-  //     const apellido = "";
-  //     const telefono = "";
-  
-  //     // Crea una referencia al documento del usuario en Firebase
-  //     const usuariosRef = doc(db, "Estudiante", uid);
-  
-  //     // Establece los datos del usuario en el documento
-  //     await setDoc(usuariosRef, {
-  //       nombre,
-  //       apellido,
-  //       telefono,
-  //       email,
-  //       fdp: "https://www.cenieh.es/sites/default/files/default_images/Foto%20perfil%20anonimo_0.png",
-  //       suscripciones: [],
-  //     });
-  
-  //     // Redirige a la página principal
-  //     window.location.href = "/Home";
-  
-  //   } catch (error) {
-  //     alert("Correo ya registrado");
-  //     console.log(error);
-  //   }
-  // };
   
   return (
         <div className="container">
