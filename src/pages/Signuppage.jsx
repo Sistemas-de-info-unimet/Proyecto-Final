@@ -79,40 +79,6 @@ export default function Signuppage() {
     }
 
 
-    // contra al registrarse con google
-
-    function askPassword() {
-      let password;
-
-      // Bucle para solicitar la contraseña hasta que se ingrese o se cancele
-      while (!password) {
-        password = prompt("Ingresa tu contraseña:", "");
-
-        // Si se presiona el botón cancelar, se retorna `null`
-        if (password === null) {
-          return null;
-        }
-
-        // Validar la contraseña
-        if (!validatePassword(password)) {
-          password = ""; // Restablecer la contraseña si no es válida
-          alert("La contraseña no es válida");
-        }
-      }
-
-      return password;
-    }
-
-    //hacer que la contra sea de 6 caracteres minimos
-    function validatePassword(password) {
-      // La contraseña debe tener al menos 6 caracteres
-      if (password.length < 6) {
-        return false;
-      }
-
-      return true;
-    }
-
     //REGISTRARSE CON GOOGLE
     const registerWithGoogle = async () => {
         try {
@@ -134,14 +100,7 @@ export default function Signuppage() {
             return; // salir si no es correo unimet
           }
 
-          
-          // Solicitar contraseña al usuario
-          const contra = askPassword();
-
-          if (!contra) {
-            return; // salir si el usuario no ingresa una contraseña
-          }
-
+        
           const uid = user.uid;
           const nombre = user.displayName;
           const email = user.email;
