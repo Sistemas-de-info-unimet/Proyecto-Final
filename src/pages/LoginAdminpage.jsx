@@ -24,7 +24,7 @@ export default function LoginAdminpage() {
       <div className="preg">
       <br></br>
       <br></br>
-      <p  className="admin-link">¿Eres estudiante? <a  className="admin-link" href="/Signup">Inicia sesión aquí</a></p>
+      <p  className="admin-link">¿Eres estudiante? <a  className="admin-link" href="/">Inicia sesión aquí</a></p>
       </div>
     </div>
   </div>
