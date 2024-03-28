@@ -99,7 +99,28 @@ export default function Signuppage() {
             })
             return; // salir si no es correo unimet
           }
+          
+          let novacio = null;
 
+          while(novacio == null){
+          const { value: password } = await Swal.fire({
+            title: "Ingrese su contraseña",
+            input: "password",
+            inputLabel: "Password",
+            inputPlaceholder: "Ingrese su contraseña",
+            inputAttributes: {
+              maxlength: "10",
+              autocapitalize: "off",
+              autocorrect: "off",
+              minlength: "6"
+            }
+          });
+          if (password) {
+            Swal.fire(`Entered password: ${password}`);
+            novacio = 1;
+          }
+        }
+          
         
           const uid = user.uid;
           const nombre = user.displayName;
