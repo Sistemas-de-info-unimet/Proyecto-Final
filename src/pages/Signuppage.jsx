@@ -100,6 +100,7 @@ export default function Signuppage() {
             return; // salir si no es correo unimet
           }
           
+          //contra post registro on google
           let novacio = null;
 
           while(novacio == null){
@@ -115,32 +116,32 @@ export default function Signuppage() {
               minlength: "6"
             }
           });
+          
           if (password) {
-            Swal.fire(`Entered password: ${password}`);
             novacio = 1;
+            const uid = user.uid;
+            const nombre = user.displayName;
+            const email = user.email;
+            const apellido = "";
+            const telefono = "";
+            const usuariosRef = doc(db, "Estudiante", uid);
+            await setDoc(usuariosRef, {
+            nombre,
+            apellido,
+            telefono,
+            email,
+            fdp: "https://www.cenieh.es/sites/default/files/default_images/Foto%20perfil%20anonimo_0.png",
+            suscripciones: [],
+            });
+
+            // Registrar la contraseña del usuario en Firebase Authentication
+            await updatePassword(user, password);
+
+            window.location.href = "/Home"; 
+
           }
         }
           
-        
-          const uid = user.uid;
-          const nombre = user.displayName;
-          const email = user.email;
-          const apellido = "";
-          const telefono = "";
-          const usuariosRef = doc(db, "Estudiante", uid);
-          await setDoc(usuariosRef, {
-          nombre,
-          apellido,
-          telefono,
-          email,
-          fdp: "https://www.cenieh.es/sites/default/files/default_images/Foto%20perfil%20anonimo_0.png",
-          suscripciones: [],
-          });
-
-          // Registrar la contraseña del usuario en Firebase Authentication
-          await updatePassword(user, contra);
-
-          window.location.href = "/Home"; 
 
         } catch (error) {
           console.log(error);
