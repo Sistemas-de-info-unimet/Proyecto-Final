@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { db } from '../Firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 const GroupCards = () => {
   const [groups, setGroups] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -14,6 +16,11 @@ const GroupCards = () => {
 
     fetchGroups();
   }, []);
+
+
+  const handleViewMore = (groupId) => {
+    navigate(`/grupo/${groupId}`);
+  };
 
   return (
     <div style={{ 
@@ -42,7 +49,7 @@ const GroupCards = () => {
             <h3>{group.nombre}</h3>
             <p>{group.tipoDeGrupo}</p>
             <p>{group.descripcion}</p>
-            <button style={{ padding: '10px', marginTop: '10px', backgroundColor: '#ff7f00' }}>Ver más</button>
+            <button onClick={() => handleViewMore(group.id)} style={{ padding: '10px', marginTop: '10px', backgroundColor: '#ff7f00' }}>Ver más</button>
           </div>
         </div>
       ))}

@@ -15,11 +15,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Buscar el documento en Firestore que coincide con el email del usuario
         const q = query(collection(db, "usuarios"), where("email", "==", user.email));
         const querySnapshot = await getDocs(q);
         const userData = querySnapshot.docs[0] ? querySnapshot.docs[0].data() : null;
-        const userId = querySnapshot.docs[0] ? querySnapshot.docs[0].id : null; // Capturar el ID del documento
+        const userId = querySnapshot.docs[0] ? querySnapshot.docs[0].id : null;
         
         setCurrentUser({
           ...user,
@@ -34,26 +33,12 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  const updateCurrentUser = (newData) => {
-    setCurrentUser(prevState => ({
-      ...prevState,
-      ...newData,
-    }));
-  };
-
-
-  const updateCurrentUserMembresias = (nuevasMembresias) => {
-    if (!currentUser) return;
-  
-    setCurrentUser(prevState => ({
-      ...prevState,
-      membresias: nuevasMembresias
-    }));
+  const updateCurrentUser = (user) => {
+    setCurrentUser(user);
   };
 
   const value = {
   currentUser,
-  updateCurrentUserMembresias,
   updateCurrentUser,
   };
   
