@@ -58,7 +58,7 @@ export default function Perfil() {
   const [mostrarCuadroTexto, setMostrarCuadroTexto] = useState(false);
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [userId, setUserId] = useState('');
-  const [nombresGrupos, setNombresGrupos] = useState([]);
+  const [membresias, setMembresias] = useState([]);
 
   useEffect(() => {
     const obtenerPerfilUsuario = async () => {
@@ -92,26 +92,22 @@ export default function Perfil() {
       setApellido(perfilUsuario.apellido);
       setTelefono(perfilUsuario.telefono);
       setCorreo(perfilUsuario.email);
-    }
 
-    const obtenerNombresGrupos = async () => {
-      try {
-        const suscripciones = perfilUsuario.suscripciones; // Obtén el array de suscripciones del perfil del usuario
-        console.log(suscripciones)
-        const gruposRef = collection(db, 'Agrupaciones');
-        const q = query(gruposRef, where('id', 'in', suscripciones)); // Consulta los grupos cuyos IDs están en el array de suscripciones
-  
-        const querySnapshot = await getDocs(q);
-        const nombres = querySnapshot.docs.map((doc) => doc.data().nombre); // Obtiene los nombres de los grupos
-  
-        setNombresGrupos(nombres);
-      } catch (error) {
-        console.error('Error al obtener los nombres de los grupos:', error);
+      if (perfilUsuario.suscripciones && perfilUsuario.suscripciones.length > 0) {
+        const obtenerMembresias = async () => {
+          const membresiasPromesas = perfilUsuario.suscripciones.map(async (clubId) => {
+            const docRef = doc(db, "Agrupaciones", clubId);
+            console.log(clubId)
+            const docSnap = await getDoc(docRef);
+            return docSnap.exists() ? {...docSnap.data(), id: docSnap.id} : null;
+          });
+          const membresiasResueltas = await Promise.all(membresiasPromesas);
+          setMembresias(membresiasResueltas.filter(m => m !== null));
+        }; 
+
+        obtenerMembresias();
       }
-    };
-  
-    if (perfilUsuario && perfilUsuario.suscripciones) {
-      obtenerNombresGrupos();
+
     }
 
   }, [perfilUsuario]);
@@ -343,12 +339,14 @@ export default function Perfil() {
           <p>Cargando perfil de usuario...</p>
         )}
           <>
+          <div>
             <h2>Tus Grupos</h2>
             <ul>
-              {nombresGrupos.map((nombre, index) => (
-                <li key={index}>{nombre}</li>
+              {membresias.map(club => (
+                <li key={club.id}>{club.nombre}</li>
               ))}
             </ul>
+            </div>
           </>
         </div>
       </section>
