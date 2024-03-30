@@ -4,7 +4,7 @@ import Signuppage from './pages/Signuppage';
 import Perfil from './pages/Perfil';
 import Home from "./pages/Home";
 import LoginAdminPage from "./pages/LoginAdminpage";
-
+import GrupoDetails from "./components/GrupoDetails";
 
 
 
@@ -34,7 +34,9 @@ export const router = createBrowserRouter([
         path: '/AdminLogin',
         element: <LoginAdminPage />
     },
-
-
+    {
+        path: '/Grupo/:id',
+        element: <GrupoDetails />
+    }
 
 ])
