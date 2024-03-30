@@ -47,27 +47,36 @@ export default function Profile() {
 
 import { useState, useEffect } from 'react';
 import { db } from '../Firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import '../pages/Perfil.css'
+import { doc, getDoc, updateDoc, getDocs, collection, where, query } from 'firebase/firestore';
+import '../pages/Perfil.css';
+import { auth } from '../Firebase';
+import Swal from 'sweetalert2';
 
 export default function Perfil() {
   const [perfilUsuario, setPerfilUsuario] = useState(null);
   const [nuevaFoto, setNuevaFoto] = useState('');
   const [mostrarCuadroTexto, setMostrarCuadroTexto] = useState(false);
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
-  const [mostrarContrasena, setMostrarContrasena] = useState(false);
-  const [cuadradoActivo, setCuadradoActivo] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [membresias, setMembresias] = useState([]);
 
   useEffect(() => {
     const obtenerPerfilUsuario = async () => {
       try {
-        const docRef = doc(db, 'Estudiante', 'DUjsU6u31sbKv3xg1dWeBfZoa7I3');
-        const docSnap = await getDoc(docRef);
+        const user = auth.currentUser;
 
-        if (docSnap.exists()) {
-          setPerfilUsuario(docSnap.data());
+        if (user) {
+          const docRef = doc(db, 'Estudiante', user.uid);
+          const docSnap = await getDoc(docRef);
+          setUserId(user.uid);
+
+          if (docSnap.exists()) {
+            setPerfilUsuario(docSnap.data());
+          } else {
+            console.log('No se encontró un perfil de usuario con el ID especificado.');
+          }
         } else {
-          console.log('No se encontró un perfil de usuario con el ID especificado.');
+          console.log('No se ha iniciado sesión.');
         }
       } catch (error) {
         console.error('Error al obtener el perfil de usuario:', error);
@@ -83,15 +92,30 @@ export default function Perfil() {
       setApellido(perfilUsuario.apellido);
       setTelefono(perfilUsuario.telefono);
       setCorreo(perfilUsuario.email);
-      setContrasena(perfilUsuario.contra);
+
+      if (perfilUsuario.suscripciones && perfilUsuario.suscripciones.length > 0) {
+        const obtenerMembresias = async () => {
+          const membresiasPromesas = perfilUsuario.suscripciones.map(async (clubId) => {
+            const docRef = doc(db, "Agrupaciones", clubId);
+            console.log(clubId)
+            const docSnap = await getDoc(docRef);
+            return docSnap.exists() ? {...docSnap.data(), id: docSnap.id} : null;
+          });
+          const membresiasResueltas = await Promise.all(membresiasPromesas);
+          setMembresias(membresiasResueltas.filter(m => m !== null));
+        }; 
+
+        obtenerMembresias();
+      }
+
     }
+
   }, [perfilUsuario]);
 
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
-  const [contrasena, setContrasena] = useState('');
 
   const handleChangeFoto = () => {
     setMostrarCuadroTexto(true);
@@ -99,15 +123,29 @@ export default function Perfil() {
   };
 
   const handleAceptar = async () => {
-    try {
-      const docRef = doc(db, 'Estudiante', 'DUjsU6u31sbKv3xg1dWeBfZoa7I3');
-      await updateDoc(docRef, { fdp: nuevaFoto });
-      setPerfilUsuario({ ...perfilUsuario, fdp: nuevaFoto });
-      setNuevaFoto('');
-      setMostrarCuadroTexto(false);
-    } catch (error) {
-      console.error('Error al actualizar la foto de perfil:', error);
+    if (nuevaFoto === '') {
+      console.error('La URL de la foto está vacía. Por favor, ingresa una URL válida.');
+      return;
     }
+  
+    const img = new Image();
+    img.src = nuevaFoto;
+  
+    img.onerror = function () {
+      console.error('La URL de la foto no es válida. Por favor, ingresa una URL de imagen válida.');
+    };
+  
+    img.onload = async function () {
+      try {
+        const docRef = doc(db, 'Estudiante', userId);
+        await updateDoc(docRef, { fdp: nuevaFoto });
+        setPerfilUsuario({ ...perfilUsuario, fdp: nuevaFoto });
+        setNuevaFoto('');
+        setMostrarCuadroTexto(false);
+      } catch (error) {
+        console.error('Error al actualizar la foto de perfil:', error);
+      }
+    };
   };
 
   const handleCancelar1 = () => {
@@ -120,7 +158,6 @@ export default function Perfil() {
       setApellido(perfilUsuario.apellido);
       setTelefono(perfilUsuario.telefono);
       setCorreo(perfilUsuario.email);
-      setContrasena(perfilUsuario.contra);
     }
   };
 
@@ -137,7 +174,7 @@ export default function Perfil() {
 
   const handleAceptarEliminar = async () => {
     try {
-      const docRef = doc(db, 'Estudiante', 'DUjsU6u31sbKv3xg1dWeBfZoa7I3');
+      const docRef = doc(db, 'Estudiante', userId);
       await updateDoc(docRef, {
         fdp:
           'https://www.cenieh.es/sites/default/files/default_images/Foto%20perfil%20anonimo_0.png',
@@ -173,20 +210,46 @@ export default function Perfil() {
   const handleChangeCorreo = (e) => {
     setCorreo(e.target.value);
   };
-  
-  const handleChangeContrasena = (e) => {
-    setContrasena(e.target.value);
-  };
 
   const handleActualizarPerfil = async () => {
     try {
-      const docRef = doc(db, 'Estudiante', 'DUjsU6u31sbKv3xg1dWeBfZoa7I3');
+
+      const isValidEmail = correo && correo.endsWith("@correo.unimet.edu.ve");
+
+          if (!isValidEmail) {
+            Swal.fire({
+              title: '¡Error!',
+              text: 'Solo se permiten correos UNIMET',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            })
+            return; // salir si no es correo unimet
+          }
+
+          //verificamos que no exista una cuenta registrada a ese correo unimet:
+          const querySnapshot = await getDocs(query(collection(db, 'Estudiante'), where('email', '==', correo)));
+          console.log(querySnapshot.empty);
+          console.log(querySnapshot.docs.map((doc) => doc.data()));
+
+          const filteredDocs = querySnapshot.docs.filter(doc => doc.id !== userId);
+
+          if (filteredDocs.length !== 0) {
+            Swal.fire({
+              title: '¡Error!',
+              text: 'Correo ya registrado',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+            return;
+          }      
+
+      const docRef = doc(db, 'Estudiante', userId);
+      console.log(userId)
       await updateDoc(docRef, {
         nombre,
         apellido,
         telefono,
         email: correo,
-        contra: contrasena
       });
       setPerfilUsuario({
         ...perfilUsuario,
@@ -194,22 +257,15 @@ export default function Perfil() {
         apellido,
         telefono,
         email: correo,
-        contra: contrasena
       });
       // Restablecer los valores originales
       setNombre(perfilUsuario.nombre);
       setApellido(perfilUsuario.apellido);
       setTelefono(perfilUsuario.telefono);
       setCorreo(perfilUsuario.email);
-      setContrasena(perfilUsuario.contra);
     } catch (error) {
       console.error('Error al actualizar el perfil:', error);
     }
-  };
-
-  const handleMostrarContrasena = () => {
-    setMostrarContrasena(!mostrarContrasena);
-    setCuadradoActivo(!cuadradoActivo);
   };
 
   return (
@@ -264,9 +320,6 @@ export default function Perfil() {
             <p>
               Correo
             </p>
-            <p>
-              Contraseña
-            </p>
             </div>
             <div className="c1">
             <div className="columna2">
@@ -274,15 +327,6 @@ export default function Perfil() {
             <input type="text" value={apellido} onChange={handleChangeApellido} />
             <input type="text" value={telefono} onChange={handleChangeTelefono} />
             <input type="text" value={correo} onChange={handleChangeCorreo} />
-            <input
-                      type={mostrarContrasena ? 'text' : 'password'}
-                      value={contrasena}
-                      onChange={handleChangeContrasena}
-                    />
-            <div className="cuadrado-container">
-                    <div className={`cuadrado ${cuadradoActivo ? 'activo' : ''}`} onClick={handleMostrarContrasena}></div>
-                    <span className="mostrar-contrasena">Mostrar contraseña</span>
-            </div>
             </div>
             <div className="botones-formulario">
             <button onClick={handleActualizarPerfil}>Actualizar perfil</button>
@@ -294,7 +338,16 @@ export default function Perfil() {
         ) : (
           <p>Cargando perfil de usuario...</p>
         )}
-        <h2>Tus Grupos</h2>
+          <>
+          <div>
+            <h2>Tus Grupos</h2>
+            <ul>
+              {membresias.map(club => (
+                <li key={club.id}>{club.nombre}</li>
+              ))}
+            </ul>
+            </div>
+          </>
         </div>
       </section>
     </div>
