@@ -6,41 +6,78 @@ import { useAuth } from '../contexts/AuthContext';
 
 function GrupoDetails() {
   const { id } = useParams(); 
-  const [grupo, setGrupo] = useState(null);
-  const [comentarios, setComentarios] = useState([]);
-  const [miembros, setMiembros] = useState([]);
+  const [agrupacion, setAgrupacion] = useState(null);
+  const [afiliados, setAfiliados] = useState([]);
   const navigate = useNavigate();
-  const { currentUser, updateCurrentUserMembresias } = useAuth();
+  const { currentUser, updateCurrentUserSuscripciones } = useAuth();
 
   useEffect(() => {
-    const obtenerDatosGrupo = async () => {
-      // Obtener información del grupo
-      const docRef = doc(db, "grupos", id);
+    const obtenerDatosagrupacion = async () => {
+      // Obtener información del agrupacion
+      const docRef = doc(db, "Agrupaciones", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setGrupo(docSnap.data());
-        const comentariosPromesas = docSnap.data().comentarios.map(async (comentarioId) => {
-          const comentarioRef = doc(db, "comentarios", comentarioId);
-          const comentarioSnap = await getDoc(comentarioRef);
-          return comentarioSnap.exists() ? comentarioSnap.data() : null;
+        setAgrupacion(docSnap.data());
+        const afiliadosPromesas = docSnap.data().afiliados.map(async (afiliadoId) => {
+          const afiliadoRef = doc(db, "Afiliado", afiliadoId);
+          const afiliadoSnap = await getDoc(afiliadoRef);
+          return afiliadoSnap.exists() ? afiliadoSnap.data() : null;
         });
-        const comentarios = await Promise.all(comentariosPromesas);
-        setComentarios(comentarios.filter(comentario => comentario !== null));
-  
-        // Obtener miembros del grupo
-        const miembrosPromesas = docSnap.data().miembros.map(async (miembroId) => {
-          const miembroRef = doc(db, "usuarios", miembroId);
-          const miembroSnap = await getDoc(miembroRef);
-          return miembroSnap.exists() ? miembroSnap.data() : null;
-        });
-        const miembros = await Promise.all(miembrosPromesas);
-        setMiembros(miembros.filter(miembro => miembro !== null));
+        const afiliados = await Promise.all(afiliadosPromesas);
+        setAfiliados(afiliados.filter(afiliado => afiliado !== null));
       } else {
         navigate('/'); 
       }
     };
-  
-    obtenerDatosGrupo();
+
+    obtenerDatosagrupacion();
   }, [id, navigate]);
+
+  const toggleAfiliacion = async () => {
+    if (!currentUser || !currentUser.docId) return;
+  
+    const userDocRef = doc(db, "Estudiantes", currentUser.docId);
+    let nuevasSuscripciones;
+  
+    if (currentUser.suscripciones.includes(id)) {
+      nuevasSuscripciones = currentUser.suscripciones.filter(mId => mId !== id);
+      await updateDoc(userDocRef, {
+        Suscripciones: arrayRemove(id)
+      });
+    } else {
+      nuevasSuscripciones = [...currentUser.suscripciones, id];
+      await updateDoc(userDocRef, {
+        Suscripciones: arrayUnion(id)
+      });
+    }
+    updateCurrentUserSuscripciones(nuevasSuscripciones);
+  };
+
+  return (
+    <div className="container">
+      {agrupacion && (
+        <>
+          <div>
+            <h1>{agrupacion.nombre}</h1>
+            <p>{agrupacion.descripcion}</p>
+            <button onClick={toggleAfiliacion}>
+              {currentUser.Suscripciones.includes(id) ? 'Retirarse' : 'Afiliarse'}
+            </button>
+          <div>
+              {videoafiliados.map((afiliado, index) => (
+                <div key={index} className="card-afiliado">
+                  <h2>{afiliado.titulo}</h2>
+                  <p>Género: {afiliado.genero}</p>
+                  <p>{afiliado.descripcion}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
+
+
 export default GrupoDetails;
