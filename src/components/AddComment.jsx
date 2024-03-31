@@ -23,8 +23,8 @@ const AddComment = ({id}) => {
       <textarea value={comment} onChange={handleCommentChange} placeholder="Escribe tu comentario aquí..."></textarea>
         <button onClick={handleCommentSubmit} style={{
             boxShadow: '0 4px #c1a23c',
-            color: '#5e4800',
-            backgroundColor: '#ffd95e',
+            color: 'black',
+            backgroundColor: 'orange',
             textTransform: 'uppercase',
             padding: '10px 20px',
             borderRadius: '5px',

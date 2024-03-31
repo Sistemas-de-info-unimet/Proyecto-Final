@@ -125,6 +125,12 @@ return (
             </ul>
           </div>
           <AddComment id={id}/>
+          <h3>COMENTARIOS:</h3>
+            <ul>
+              {agrupacion.comentarios.map((content, index) => (
+                <li key={index}>{content.comment} por, {content.nombre}</li>
+              ))}
+            </ul>
         </div>
       </>
     )}
