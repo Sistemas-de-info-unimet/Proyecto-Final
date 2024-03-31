@@ -305,7 +305,7 @@ export default function Perfil() {
                 <input type="text" value={apellido} onChange={handleChangeApellido} className="text-input"/>
               </div>
               <div className='input'>
-                <p>Telefono</p>
+                <p>Teléfono</p>
                 <input type="text" value={telefono} onChange={handleChangeTelefono} className="text-input"/>
               </div>
               <div className='input'>
