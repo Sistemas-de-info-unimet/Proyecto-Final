@@ -1,14 +1,23 @@
+*{
+    font-family: "Inter-Bold", Helvetica;
+}
 .DashboardHeader{
     background-color: #FF7F01;
     display: flex;
-    width: 1441px;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 }
-.AdminInfoSeccion{
-    fill: #FEFAF7;
+#OpenGroUP{
+    width: 300px; 
+    height: 150px;
 }
+#UnimetLogo{
+    width: 255px; 
+    height: 255px;
+}
+
 .GroupSection{
-    fill: #FEFAF7;
     margin-top: 3em;
 }
 input{
