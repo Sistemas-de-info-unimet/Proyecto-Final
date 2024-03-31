@@ -22,7 +22,7 @@ function Header() {
         <header className='Header-cont' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', backgroundColor: '#ff7f00', flexWrap: "wrap"}}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: "center" }}>
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfUjUIUOUr2zEwuhLh4Q_qziqXtIHwEyyMEwRXsK34aQ&s" alt="Logo 1" style={{ marginRight: '10px', maxHeight: "80px" }} />
-                <img src={Logo} alt="Logo 2" style={{ maxHeight: "70px" }}/>
+                <img onClick={() => navigate('/Home')} src={Logo} alt="Logo 2" style={{ maxHeight: "70px" , cursor: 'pointer'}}/>
             </div>
             <div>
                 {currentUser ? (
