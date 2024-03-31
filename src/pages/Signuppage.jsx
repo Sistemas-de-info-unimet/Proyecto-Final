@@ -196,6 +196,7 @@ export default function Signuppage() {
         
         <div className="links">
           <p className="admin-link">Ya estás registrado? <a className="admin-link" href="/">Inicia sesión</a></p>
+          <br></br>
           <p className="admin-link">¿Eres administrador? <a className="admin-link" href="/AdminLogin">Inicia sesión como administrador</a></p>
         </div>
       </form>
