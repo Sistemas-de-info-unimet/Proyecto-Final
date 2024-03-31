@@ -44,7 +44,7 @@ export default function LoginAdminpage() {
               return
             }
 
-            window.location.href = "/Home";
+            window.location.href = "/AdminLogin";
           }
       })
       .catch((error) => {
