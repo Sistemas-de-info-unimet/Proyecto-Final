@@ -28,6 +28,6 @@ button{
     align-items: center;
     gap: 10px;
     border-radius: 8px;
-    background: #FF7F01;
+    background-color: #FF7F01;
     color: #FFF;
 }
