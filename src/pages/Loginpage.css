@@ -177,9 +177,7 @@ body{
   .social-login {
     margin-top: 1rem;
     display: flex;
-    padding-left: 85px;
-    padding-right: 85px;
-    
+    justify-content: center;
   }
   
 .tit2{
@@ -219,8 +217,28 @@ body{
 .bt-img{
     background-color: transparent;
     border: none;
+    width: 100%;
+    height: 100%;
 }
 
 .iniciacon{
     font-weight: bold;
 }
+
+.bt-img {
+    background-color: transparent; /* Remove default button background */
+    border: none; 
+    padding: 0; 
+    cursor: pointer; 
+    flex: 0 0 auto; 
+    width: 40px; 
+    height: 40px; 
+    margin: 0.5rem; 
+  }
+  
+  .bt-img img {
+    width: 100%; 
+    height: 100%; 
+  }
+
+ 

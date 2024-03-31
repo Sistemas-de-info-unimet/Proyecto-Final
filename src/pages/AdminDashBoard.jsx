@@ -1,7 +1,6 @@
-import React from 'react'
 import Logo from '../assets/LogoOpenG.png'
 
-export const AdminDashBoard = () => {
+export default function AdminDashBoard(){
     []
     return (
         <>
@@ -16,7 +15,7 @@ export const AdminDashBoard = () => {
         </div>
         <div className="GroupsSection">
             <button className="CreateGroup">Crear nuevo Grupo</button>
-            <div class="ModifySeccion">
+            <div className="ModifySeccion">
                 <input type="text" placeholder='Ingrese grupo para  buscar...'/>
                 <div>
                     <button className="UpdateButton">Editar</button>

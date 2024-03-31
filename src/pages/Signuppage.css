@@ -12,6 +12,7 @@
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
+    border-radius: 20px;
   }
   
   .image-container {
@@ -69,8 +70,7 @@
   .social-login {
     margin-top: 1rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
   }
   
   .links {
@@ -86,5 +86,20 @@
     color: #000;
     text-decoration: underline;
   }
+
+  #nombre::placeholder {
+    color: #ffffff;
+    font-size: 12px;
+}
+
+#apellido::placeholder {
+  color: #ffffff;
+  font-size: 12px;
+}
+
+#telefono::placeholder {
+  color: #ffffff;
+  font-size: 12px;
+}
 
   
