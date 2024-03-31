@@ -8,17 +8,17 @@
     justify-content: flex-start;
     flex-wrap: wrap;
 }
-#OpenGroUP{
-    width: 300px; 
+img{
+    width: 200px;
     height: 150px;
-}
-#UnimetLogo{
-    width: 255px; 
-    height: 255px;
 }
 
 .GroupSection{
     margin-top: 3em;
+}
+.conainerAdminImput{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 input{
     display: flex;
@@ -28,15 +28,50 @@ input{
     border-radius: 15px;
     border: 1px solid #FFF;
     background: rgba(253, 235, 218, 0.30);
+    width: 40%;
+}
+.groupContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 button{
-    border-width: 1px;
-    display: inline-flex;
-    padding: 10px 20px;
+    display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 10px;
+    border-width: 1px;
+    padding: 10px 20px;
     border-radius: 8px;
     background-color: #FF7F01;
     color: #FFF;
+    margin-left: 3em;
+    margin-bottom: 2em;
+}
+p{
+    margin-left: 3em;
+}
+.line{
+    border-bottom: 1px wheat solid;
+}
+#createG{
+    display: flex;
+    justify-content: center;
+    border-width: 1px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #FF7F01;
+    color: #FFF;
+    margin-left: 3em;
+    margin-bottom: 2em;
+    height: 50px;
+}
+.radioContainer{
+    display: flex;
+    align-items: center;
+    align-content: space-around;
+}
+#modify{
+    margin-left: 3em;
+}
+.buttonsContainer{
+    display: flex;
+    align-items:flex-start;
 }

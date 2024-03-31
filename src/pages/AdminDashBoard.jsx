@@ -3,8 +3,13 @@ import Logo from '../assets/LogoOpenG.png'
 import Swal from 'sweetalert2';
 import {setDoc, doc} from "firebase/firestore";
 import { db } from "../Firebase";
+import "./AdminDashBoard.css"
+
 
 export default function AdminDashBoard(){
+
+    const UnimetLogo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfUjUIUOUr2zEwuhLh4Q_qziqXtIHwEyyMEwRXsK34aQ&s"
+    
     //*varianble declaration
     const [adminEmail, setAdminEmail] = useState("")
     const [adminPassword, setAdminPassword]  = useState("");
@@ -42,23 +47,25 @@ export default function AdminDashBoard(){
             })
             return;
         }
-        const currentState = active==true? "activo":"desactivo"
-        await setDoc(doc(db,"Agrupaciones",),
-        {
-            afiliados:[],
-            comentarios:[],
-            contacto:contactEmail,
-            descripcion:description,
-            estado:currentState,
-            //Todo foto
-            mision:mission,
-            vision:vision,
-            name: groupName,
-            tipoDeGrupo:groupType
-        })
+        try{
+            const currentState = active==true? "activo":"desactivo"
+            await setDoc(doc(db,"Agrupaciones",),
+            {
+                afiliados:[],
+                comentarios:[],
+                contacto:contactEmail,
+                descripcion:description,
+                estado:currentState,
+                //Todo foto
+                mision:mission,
+                vision:vision,
+                name: groupName,
+                tipoDeGrupo:groupType
+            })
+        }catch(e){
+        }
 
     }
-
     const handleSearch = (e) =>{setSearch(e.target.value)}
 
     const createGroup = (e) =>{
@@ -66,58 +73,74 @@ export default function AdminDashBoard(){
         handleCreateGroup(groupName, mission, vision, contactEmail, groupType, active, description)
     }
     
-
     function validateEmail(email) {
         const regex = /^[\w-.]+@correo\.unimet\.edu\.ve$/;
         return regex.test(email);
     }
     
-    const UnimetLogo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfUjUIUOUr2zEwuhLh4Q_qziqXtIHwEyyMEwRXsK34aQ&s"
     return (
     <>
     <div className="DashboardHeader">
-        <img src={Logo} alt="not found" id="OpenGroUP" height={150} width={300}/>
-        <img src={UnimetLogo} alt="not found" id='UnimetLogo'/>
+        <img src={Logo} alt="not found" />
+        <img src={UnimetLogo} alt="not found" />
     </div>
     <div className="AdminInfoSeccion">
-        <input type="text" className="Email" value={adminEmail} onChange={handleAdminEmail} placeholder='admin email'/>
-        <input type="password" className="Password" value={adminPassword} placeholder="*******" onChange={handleAdminPassword} />
+        <p>Información de admin</p>
+        <div className='conainerAdminImput'>
+            <input type="password" className="Password" value={adminPassword} placeholder="*******" onChange={handleAdminPassword} />
+            <input type="text" className="Email" value={adminEmail} onChange={handleAdminEmail} placeholder='admin email'/>
+        </div>
         <button className="AndminInfoChange">Actualizar datos</button>
     </div>
-
+    <hr className="line" />
     <div className="GroupsSection">
         
         <form action="" className="CreateGroupForm" onSubmit={createGroup}>
-            <p>Nombre de la Agrupación</p>
-            <input type="text" value={groupName} onChange={handleName} required/>
-
-            <p>Misión y Visión</p>
-            <input type="text" placeholder='Misión' required value={mission} onChange={handleMission} />
-            <input type="text" placeholder='Visión' required value={vision} onChange={handleVision} />
-            <p>Descripción</p>
-
-            <input type="text" required value={description} onChange={handleDescription} />
-            <p>Estado:</p>
-            <input type="radio" name="isActive" id="active" value={true} onChange={handleActive} checked={active===true}/>
-            <label htmlFor='active'>Activo</label>
-            <input type="radio" name="isActive" id="notActive" value={false} onChange={handleActive} checked={active===false}/>
-            <label htmlFor='notActive'>Desactivo</label>
-
-            <p>Correo de contacto</p>
-            <input type="text" value={contactEmail} onChange={handleContactEmail} required/>
-
-            <p>Tipo de agrupación</p>
-            <input type="text" value={groupType} onChange={handleGroupType} required/>
-
-            <p>Selecione imagen(es)</p>
-            <input type="file" required/>
-
-            <input type="submit" value="Crear agrupación" />
-        </form>
-
-        <div className="ModifySeccion">
-            <input type="text" placeholder='Ingrese grupo para  buscar...' value={search} onChange={handleSearch}/>
+            <div className="groupContainer">
             <div>
+                <p>Nombre de la Agrupación</p>
+                <input type="text" value={groupName} onChange={handleName} required/>
+            </div>
+            <div>
+                <p>Misión y Visión</p>
+                <input type="text" placeholder='Misión' required value={mission} onChange={handleMission} />
+                <input type="text" placeholder='Visión' required value={vision} onChange={handleVision} />
+            </div>
+            <div>
+                <p>Descripción</p>
+                <input type="text" required value={description} onChange={handleDescription} />
+            </div>
+            <div>
+                <p>Estado:</p>
+                <div className='radioContainer'>
+                    <input type="radio" name="isActive" id="active" value={true} onChange={handleActive} checked={active===true}/>
+                    <label htmlFor='active'>Activo</label>
+                </div>
+                <div className="radioContainer">
+                    <input type="radio" name="isActive" id="notActive" value={false} onChange={handleActive} checked={active===false}/>
+                    <label htmlFor='notActive'>Desactivo</label>
+                </div>
+            </div>
+            <div>
+                <p>Correo de contacto</p>
+                <input type="text" value={contactEmail} onChange={handleContactEmail} required/>
+            </div>
+            <div>
+                <p>Tipo de agrupación</p>
+                <input type="text" value={groupType} onChange={handleGroupType} required/>
+            </div>
+            <div>
+                <p>Selecione imagen(es)</p>
+                <input type="file" required accept="image/png, image/gif, image/jpeg"/>
+            </div>
+            </div>
+
+            <input type="submit" value="Crear agrupación" id='createG' />
+        </form>
+        <hr className="line" />
+        <div className="ModifySeccion">
+            <input type="text" placeholder='Ingrese grupo para  buscar...' value={search} onChange={handleSearch} id="modify"/>
+            <div className='buttonsContainer'>
                 <button className="UpdateButton">Editar</button>
                 <button className="DeleteButton">Eliminar</button>
             </div>
