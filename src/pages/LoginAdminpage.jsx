@@ -44,7 +44,7 @@ export default function LoginAdminpage() {
               return
             }
 
-            window.location.href = "/AdminLogin";
+            window.location.href = "/AdminDashBoard";
           }
       })
       .catch((error) => {
