@@ -5,7 +5,8 @@ import { doc, getDoc, updateDoc, arrayUnion, arrayRemove, collection, query, whe
 import { useAuth } from '../contexts/AuthContext'; 
 import { auth } from '../Firebase';
 import Card from "../components/Card";
-
+import AddComment from './AddComment';
+import Header from './Header';
 
 function GrupoDetails() {
   const [perfilUsuario, setPerfilUsuario] = useState(null);
@@ -93,38 +94,43 @@ function GrupoDetails() {
     }
   };
 
-  return (
+return (
+  <>
+  <Header />
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-    <div className="container" style={{ textAlign: 'center' }}>
-      {agrupacion && (
-        <>
+    {agrupacion && (
+      <>
+        <div>
+          <h1 style={{ textAlign: 'center', color: 'white' }}>{agrupacion.nombre}</h1>
+            <img src={agrupacion.foto} style={{ width: '1480px' }}/>
+          </div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '200px' }}>
+        <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254538.png" title="Descripcion" text={agrupacion.descripcion} />
+          <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254638.png" title="Misión" text={agrupacion.mision} />
+          <Card icon="https://cdn-icons-png.flaticon.com/128/4055/4055993.png" title="Visión" text={agrupacion.vision} />
+        </div>
+        <div style={{ marginTop: '20px' }}>
+          <button onClick={handleSuscripcion}>
+            {perfilUsuario && perfilUsuario.suscripciones && perfilUsuario.suscripciones.includes(id)
+              ? 'Retirarse'
+              : 'Unirse'}
+          </button>
           <div>
-            <h1>{agrupacion.nombre}</h1>
-            <p>{agrupacion.descripcion}</p>
+            <h3>PARTICIPANTES:</h3>
+            <ul>
+              {agrupacion.afiliados.map((nombre, index) => (
+                <li key={index}>{nombre}</li>
+              ))}
+            </ul>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
-            <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254638.png" title="Misión" text={agrupacion.mision} />
-            <Card icon="https://cdn-icons-png.flaticon.com/128/4055/4055993.png" title="Visión" text={agrupacion.vision} />
-          </div>
-          <div style={{ marginTop: '20px' }}>
-            <button onClick={handleSuscripcion}>
-              {perfilUsuario && perfilUsuario.suscripciones && perfilUsuario.suscripciones.includes(id)
-                ? 'Retirarse'
-                : 'Unirse'}
-            </button>
-            <div>
-              <h3>PARTICIPANTES:</h3>
-              <ul>
-                {agrupacion.afiliados.map((nombre, index) => (
-                  <li key={index}>{nombre}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
+          <AddComment id={id}/>
+        </div>
+      </>
+    )}
+  </div>
+);
+</>)
 }
 
 export default GrupoDetails;

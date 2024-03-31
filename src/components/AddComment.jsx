@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import firebase from 'firebase/app';
 import { db, auth } from '../Firebase';
 import { arrayUnion, updateDoc, doc } from 'firebase/firestore';
 
@@ -11,15 +10,13 @@ const AddComment = ({id}) => {
   };
 
   const handleCommentSubmit = async () => {
-    const user = auth.currentUser;
-    if (user && comment) {
+    const user = auth.currentUser
       await updateDoc(doc(db, "Agrupaciones", id), {
         comentarios: arrayUnion({
           nombre: user.displayName,
           comment: comment,
         }),
       });
-    }
   };
   return (
     <div>
