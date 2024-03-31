@@ -4,6 +4,8 @@ import { db } from '../Firebase';
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove, collection, query, where, getDocs } from 'firebase/firestore';
 import { useAuth } from '../contexts/AuthContext'; 
 import { auth } from '../Firebase';
+import Card from "../components/Card";
+
 
 function GrupoDetails() {
   const [perfilUsuario, setPerfilUsuario] = useState(null);
@@ -93,33 +95,31 @@ function GrupoDetails() {
 
   return (
 
-    <div className="container">
+    <div className="container" style={{ textAlign: 'center' }}>
       {agrupacion && (
         <>
           <div>
             <h1>{agrupacion.nombre}</h1>
             <p>{agrupacion.descripcion}</p>
           </div>
-          <div>
-            <h3>MISION:</h3>
-            <p>{agrupacion.mision}</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+            <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254638.png" title="Misión" text={agrupacion.mision} />
+            <Card icon="https://cdn-icons-png.flaticon.com/128/4055/4055993.png" title="Visión" text={agrupacion.vision} />
           </div>
-          <div>
-            <h3>VISION:</h3>
-            <p>{agrupacion.vision}</p>
-          </div>
-          <button onClick={handleSuscripcion}>
-            {perfilUsuario && perfilUsuario.suscripciones && perfilUsuario.suscripciones.includes(id)
-              ? 'Retirarse'
-              : 'Unirse'}
-          </button>
-          <div>
-            <h3>PARTICIPANTES:</h3>
-            <ul>
-              {agrupacion.afiliados.map((nombre, index) => (
-                <li key={index}>{nombre}</li>
-              ))}
-            </ul>
+          <div style={{ marginTop: '20px' }}>
+            <button onClick={handleSuscripcion}>
+              {perfilUsuario && perfilUsuario.suscripciones && perfilUsuario.suscripciones.includes(id)
+                ? 'Retirarse'
+                : 'Unirse'}
+            </button>
+            <div>
+              <h3>PARTICIPANTES:</h3>
+              <ul>
+                {agrupacion.afiliados.map((nombre, index) => (
+                  <li key={index}>{nombre}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </>
       )}
