@@ -17,26 +17,26 @@ export default function Perfil() {
   useEffect(() => {
     const obtenerPerfilUsuario = async () => {
       try {
-        const user = auth.currentUser;
-
-        if (user) {
-          const docRef = doc(db, 'Estudiante', user.uid);
-          const docSnap = await getDoc(docRef);
-          setUserId(user.uid);
-
-          if (docSnap.exists()) {
-            setPerfilUsuario(docSnap.data());
+        auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            const docRef = doc(db, 'Estudiante', user.uid);
+            const docSnap = await getDoc(docRef);
+            setUserId(user.uid);
+  
+            if (docSnap.exists()) {
+              setPerfilUsuario(docSnap.data());
+            } else {
+              console.log('No se encontró un perfil de usuario con el ID especificado.');
+            }
           } else {
-            console.log('No se encontró un perfil de usuario con el ID especificado.');
+            console.log('No se ha iniciado sesión.');
           }
-        } else {
-          console.log('No se ha iniciado sesión.');
-        }
+        });
       } catch (error) {
         console.error('Error al obtener el perfil de usuario:', error);
       }
     };
-
+  
     obtenerPerfilUsuario();
   }, []);
 
@@ -313,7 +313,7 @@ export default function Perfil() {
                 <input type="text" value={correo} onChange={handleChangeCorreo} className="text-input"/>
               </div>
               <div className="botones-formulario">
-              <button onClick={handleActualizarPerfil}>Actualizar perfil</button>
+              <button onClick={handleActualizarPerfil}>Actualizar Perfil</button>
               <button onClick={handleCancelar1}>Cancelar</button>
               </div>
               </div>
