@@ -1,11 +1,13 @@
 import React from 'react'
+import Logo from '../assets/LogoOpenG.png'
 
 export const AdminDashBoard = () => {
+    []
     return (
         <>
         <div className="DashboardHeader">
-            <img src="" alt="not found" />
-            <img src="" alt="not found" />
+            <img src={Logo} alt="not found" />
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfUjUIUOUr2zEwuhLh4Q_qziqXtIHwEyyMEwRXsK34aQ&s" alt="not found" />
         </div>
         <div className="AdminInfoSeccion">
             <input type="text" className="Email" placeholder="Ingrese Correo"/>
