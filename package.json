@@ -10,9 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.2.0",
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
     "firebase": "^10.9.0",
+    "morgan": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-paypal-button-v2": "^2.6.3",
     "react-router-dom": "^6.22.3",
     "react-slideshow-image": "^4.3.1",
     "sweetalert2": "^11.10.7"
