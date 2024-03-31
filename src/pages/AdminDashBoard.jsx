@@ -3,11 +3,11 @@ import React from 'react'
 export const AdminDashBoard = () => {
     return (
         <>
-        <div className="Header">
-            <img src="" alt="not found" className="OpenGroupUP"/>
-            <img src="" alt="not found" className="UniLogo" />
+        <div className="DashboardHeader">
+            <img src="" alt="not found" />
+            <img src="" alt="not found" />
         </div>
-        <div className="AdminInfo">
+        <div className="AdminInfoSeccion">
             <input type="text" className="Email" placeholder="Ingrese Correo"/>
             <input type="password" className="Password" placeholder="Ingrese contraseña"/>
             <button className="AndminInfoChange">Actualizar datos</button>

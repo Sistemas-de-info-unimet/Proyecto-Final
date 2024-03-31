@@ -1,10 +1,9 @@
-.Header{
-    background: #FF7F01;
+.DashboardHeader{
+    background-color: #FF7F01;
     display: flex;
-    width: 1441px;
     align-items: flex-start;
 }
-.AdminInfo{
+.AdminInfoSeccion{
     fill: #FEFAF7;
 }
 .GroupsSection{
