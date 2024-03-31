@@ -4,7 +4,7 @@ import Signuppage from './pages/Signuppage';
 import Perfil from './pages/Perfil';
 import Home from "./pages/Home";
 import LoginAdminPage from "./pages/LoginAdminpage";
-
+import AdminDashBoard  from "./pages/AdminDashBoard";
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -31,5 +31,9 @@ export const router = createBrowserRouter([
         element: <LoginAdminPage />
     },
 
+    {
+        path: '/AdminDashbBoard',
+        element: <AdminDashBoard />
+    },
 
 ])

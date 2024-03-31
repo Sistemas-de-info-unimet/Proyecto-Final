@@ -1,13 +1,15 @@
 .DashboardHeader{
     background-color: #FF7F01;
     display: flex;
+    width: 1441px;
     align-items: flex-start;
 }
 .AdminInfoSeccion{
     fill: #FEFAF7;
 }
-.GroupsSection{
+.GroupSection{
     fill: #FEFAF7;
+    margin-top: 3em;
 }
 input{
     display: flex;
@@ -19,6 +21,7 @@ input{
     background: rgba(253, 235, 218, 0.30);
 }
 button{
+    border-width: 1px;
     display: inline-flex;
     padding: 10px 20px;
     justify-content: center;
