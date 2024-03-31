@@ -79,6 +79,12 @@ export default function Perfil() {
   const handleAceptar = async () => {
     if (nuevaFoto === '') {
       console.error('La URL de la foto está vacía. Por favor, ingresa una URL válida.');
+      Swal.fire({
+        title: '¡Error!',
+        text: 'Error al actualizar la foto de perfil',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
       return;
     }
   
@@ -87,6 +93,12 @@ export default function Perfil() {
   
     img.onerror = function () {
       console.error('La URL de la foto no es válida. Por favor, ingresa una URL de imagen válida.');
+      Swal.fire({
+        title: '¡Error!',
+        text: 'Error al actualizar la foto de perfil',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     };
   
     img.onload = async function () {
@@ -98,6 +110,12 @@ export default function Perfil() {
         setMostrarCuadroTexto(false);
       } catch (error) {
         console.error('Error al actualizar la foto de perfil:', error);
+        Swal.fire({
+          title: '¡Error!',
+          text: 'Error al actualizar la foto de perfil',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     };
   };
@@ -141,6 +159,12 @@ export default function Perfil() {
       setMostrarConfirmacion(false);
     } catch (error) {
       console.error('Error al eliminar la foto de perfil:', error);
+      Swal.fire({
+        title: '¡Error!',
+        text: 'Error al eliminar la foto de perfil',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
@@ -212,6 +236,14 @@ export default function Perfil() {
         telefono,
         email: correo,
       });
+
+      Swal.fire({
+        title: '¡Listo!',
+        text: 'Perfil actualizado con éxito',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+
       // Restablecer los valores originales
       setNombre(perfilUsuario.nombre);
       setApellido(perfilUsuario.apellido);

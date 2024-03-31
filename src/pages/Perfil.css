@@ -249,3 +249,14 @@ span {
   width: 120px;
   height: 35px;
 }
+
+
+ li {
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: x-large;
+
+ }
+
+ .left-section h2 {
+  text-transform: capitalize;
+ }
