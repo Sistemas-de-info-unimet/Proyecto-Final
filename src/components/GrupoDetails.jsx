@@ -7,6 +7,7 @@ import { auth } from '../Firebase';
 import Card from "../components/Card";
 import AddComment from './AddComment';
 import Header from './Header';
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; // Importa PayPalScriptProvider y PayPalButtons
 
 function GrupoDetails() {
   const [perfilUsuario, setPerfilUsuario] = useState(null);
@@ -94,43 +95,64 @@ function GrupoDetails() {
     }
   };
 
-return (
-  <>
-  <Header />
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  return (
+    <>
+      <Header />
+      <PayPalScriptProvider options={{ "client-id": "ARHow9A_vOoStwsK8GMcMtN9z7KoOujFs_3Sc0zM3TFkXWGguNwsBJSdF6F3bA6aGGWxpn16XHf0r0Ej" }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-    {agrupacion && (
-      <>
-        <div>
-          <h1 style={{ textAlign: 'center', color: 'white' }}>{agrupacion.nombre}</h1>
-            <img src={agrupacion.foto} style={{ width: '1480px' }}/>
-          </div>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '200px' }}>
-        <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254538.png" title="Descripcion" text={agrupacion.descripcion} />
-          <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254638.png" title="Misión" text={agrupacion.mision} />
-          <Card icon="https://cdn-icons-png.flaticon.com/128/4055/4055993.png" title="Visión" text={agrupacion.vision} />
+          {agrupacion && (
+            <>
+              <div>
+                <h1 style={{ textAlign: 'center', color: 'white' }}>{agrupacion.nombre}</h1>
+                <img src={agrupacion.foto} style={{ width: '1480px' }}/>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '200px' }}>
+                <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254538.png" title="Descripcion" text={agrupacion.descripcion} />
+                <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254638.png" title="Misión" text={agrupacion.mision} />
+                <Card icon="https://cdn-icons-png.flaticon.com/128/4055/4055993.png" title="Visión" text={agrupacion.vision} />
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <button onClick={handleSuscripcion}>
+                  {perfilUsuario && perfilUsuario.suscripciones && perfilUsuario.suscripciones.includes(id)
+                    ? 'Retirarse'
+                    : 'Unirse'}
+                </button>
+                <div>
+                  <h3>PARTICIPANTES:</h3>
+                  <ul>
+                    {agrupacion.afiliados.map((nombre, index) => (
+                      <li key={index}>{nombre}</li>
+                    ))}
+                  </ul>
+                </div>
+                <AddComment id={id}/>
+                <PayPalButtons
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value: '1.00',
+                          },
+                        },
+                      ],
+                    });
+                  }}
+                  onApprove={(data, actions) => {
+                    return actions.order.capture().then(function(details) {
+                      alert('Transaction completed by ' + details.payer.name.given_name);
+                    });
+                  }}
+                />
+              </div>
+            </>
+          )}
         </div>
-        <div style={{ marginTop: '20px' }}>
-          <button onClick={handleSuscripcion}>
-            {perfilUsuario && perfilUsuario.suscripciones && perfilUsuario.suscripciones.includes(id)
-              ? 'Retirarse'
-              : 'Unirse'}
-          </button>
-          <div>
-            <h3>PARTICIPANTES:</h3>
-            <ul>
-              {agrupacion.afiliados.map((nombre, index) => (
-                <li key={index}>{nombre}</li>
-              ))}
-            </ul>
-          </div>
-          <AddComment id={id}/>
-        </div>
-      </>
-    )}
-  </div>
-);
-</>)
+      </PayPalScriptProvider>
+    </>
+  );
 }
 
 export default GrupoDetails;
+
