@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import Logo from '../assets/LogoOpenG.png'
+import Swal from 'sweetalert2';
+import {setDoc, doc} from "firebase/firestore";
+import { db } from "../Firebase";
 
 export default function AdminDashBoard(){
     //*varianble declaration
@@ -12,6 +15,9 @@ export default function AdminDashBoard(){
     const [contactEmail, setContactEmail] = useState("")
     const [groupType, setGroupeType] = useState("")
     const [active, setActive] = useState(false)
+    const [description, setDescription] = useState("")
+
+    const [search, setSearch] = useState("")
 
     //*handles
     const handleAdminEmail = (e)=>{setAdminEmail(e.target.value)}
@@ -23,8 +29,49 @@ export default function AdminDashBoard(){
     const handleContactEmail = (e) =>{setContactEmail(e.target.value)}
     const handleGroupType = (e) =>{setGroupeType(e.target.value)}
     const handleActive = (e) =>{setActive(e.target.checked)}
-    const handleCreateGroup = () =>{}
+    const handleDescription = (e) =>{setDescription(e.target.value)}
 
+    const handleCreateGroup = async (groupName, mission, vision, contactEmail, groupType, active, description) =>{
+        const isValidEmail = validateEmail(contactEmail)
+        if (!isValidEmail){
+            Swal.fire({
+                title: '¡Error!',
+                text: 'El correo electrónico ingresado no es válido',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+            return;
+        }
+        const currentState = active==true? "activo":"desactivo"
+        await setDoc(doc(db,"Agrupaciones",),
+        {
+            afiliados:[],
+            comentarios:[],
+            contacto:contactEmail,
+            descripcion:description,
+            estado:currentState,
+            //Todo foto
+            mision:mission,
+            vision:vision,
+            name: groupName,
+            tipoDeGrupo:groupType
+        })
+
+    }
+
+    const handleSearch = (e) =>{setSearch(e.target.value)}
+
+    const createGroup = (e) =>{
+        e.preventDefault()
+        handleCreateGroup(groupName, mission, vision, contactEmail, groupType, active, description)
+    }
+    
+
+    function validateEmail(email) {
+        const regex = /^[\w-.]+@correo\.unimet\.edu\.ve$/;
+        return regex.test(email);
+    }
+    
     const UnimetLogo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfUjUIUOUr2zEwuhLh4Q_qziqXtIHwEyyMEwRXsK34aQ&s"
     return (
     <>
@@ -40,13 +87,16 @@ export default function AdminDashBoard(){
 
     <div className="GroupsSection">
         
-        <form action="" className="CreateGroupForm">
+        <form action="" className="CreateGroupForm" onSubmit={createGroup}>
             <p>Nombre de la Agrupación</p>
             <input type="text" value={groupName} onChange={handleName} required/>
 
             <p>Misión y Visión</p>
             <input type="text" placeholder='Misión' required value={mission} onChange={handleMission} />
             <input type="text" placeholder='Visión' required value={vision} onChange={handleVision} />
+            <p>Descripción</p>
+
+            <input type="text" required value={description} onChange={handleDescription} />
             <p>Estado:</p>
             <input type="radio" name="isActive" id="active" value={true} onChange={handleActive} checked={active===true}/>
             <label htmlFor='active'>Activo</label>
@@ -60,13 +110,13 @@ export default function AdminDashBoard(){
             <input type="text" value={groupType} onChange={handleGroupType} required/>
 
             <p>Selecione imagen(es)</p>
-            <input type="file" name="" id="" required/>
+            <input type="file" required/>
 
-            <button className='Submit' onClick={handleCreateGroup}>Crear agrupación</button>
+            <input type="submit" value="Crear agrupación" />
         </form>
 
         <div className="ModifySeccion">
-            <input type="text" placeholder='Ingrese grupo para  buscar...'/>
+            <input type="text" placeholder='Ingrese grupo para  buscar...' value={search} onChange={handleSearch}/>
             <div>
                 <button className="UpdateButton">Editar</button>
                 <button className="DeleteButton">Eliminar</button>
