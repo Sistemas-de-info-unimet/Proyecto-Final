@@ -11,7 +11,7 @@ import { getDocs } from 'firebase/firestore';
 export default function AdminDashBoard(){
     
 
-        const [selectedOption, setSelectedOption] = useState('');
+    const [selectedOption, setSelectedOption] = useState('');
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
@@ -26,6 +26,15 @@ export default function AdminDashBoard(){
     const [groupType, setGroupeType] = useState("")
     const [active, setActive] = useState(false)
     const [description, setDescription] = useState("")
+
+    //handles editar
+    const [newName, setNewName] = useState("")
+    const [newMission, setNewMission] = useState("")
+    const [newVision, setNewVision] = useState("")
+    const [newContact, setNewContact] = useState("")
+    const [newType, setNewType] = useState("")
+    const [newActive, setNewActive] = useState(false)
+    const [newDescription, setNewDescription] = useState("")
 
     //*handles
     const handleName = (e) =>{setGroupName(e.target.value)}
@@ -59,11 +68,29 @@ export default function AdminDashBoard(){
               // Delete the document
               await deleteDoc(doc.ref);
               console.log("Documento eliminado correctamente");
+              Swal.fire({
+                title: 'Listo',
+                text: 'Grupo eliminado exitosamente',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
             } else {
               console.log(`No se encontró ningún documento con nombre: ${nombre}`);
+              Swal.fire({
+                title: '¡Error!',
+                text: `No se encontro ningun grupo con nombre: ${nombre}`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
             }
           } catch (error) {
             console.error('Error al eliminar el documento:', error);
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Error al eliminar grupo',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
           }
         
 
@@ -140,6 +167,9 @@ export default function AdminDashBoard(){
                 return;
             }
 
+
+
+            
             const currentState = active==true? "activo":"desactivo"
             
             // Crea una referencia a la colección "Agrupaciones"
@@ -161,6 +191,13 @@ export default function AdminDashBoard(){
             nombre: groupName,
             tipoDeGrupo: groupType,
             });
+
+            Swal.fire({
+                title: 'Listo',
+                text: 'Grupo Creado',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
 
     }
 
@@ -224,9 +261,7 @@ export default function AdminDashBoard(){
                             <option key={group.nombre} value={group.nombre} >
                             {group.nombre}
                             </option>
-                            
-                            
-                            
+                               
                         ))}
                         
                         </select>
