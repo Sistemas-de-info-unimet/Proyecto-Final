@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { db, auth } from '../Firebase';
 import { arrayUnion, updateDoc, doc } from 'firebase/firestore';
+import './AddComment.css';
+import Swal from 'sweetalert2'; 
 
 const AddComment = ({id}) => {
   const [comment, setComment] = useState('');
@@ -17,23 +19,12 @@ const AddComment = ({id}) => {
           comment: comment,
         }),
       });
-      alert("Comentario enviado exitosamente");
+    Swal.fire({title:'Comentario Enviado', text:"Comentario Enviado Exitosamente!", icon: 'success', confirmButtonText: 'OK'})
   };
   return (
-    <div>
+    <div className='comment-box'>
       <textarea value={comment} onChange={handleCommentChange} placeholder="Escribe tu comentario aquí..."></textarea>
-        <button onClick={handleCommentSubmit} style={{
-            boxShadow: '0 4px #c1a23c',
-            color: 'black',
-            backgroundColor: 'orange',
-            textTransform: 'uppercase',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            transition: 'all .2s ease',
-            fontWeight: '900',
-            cursor: 'pointer',
-            letterSpacing: '1px',
-      }}>Enviar</button>
+      <button onClick={handleCommentSubmit}>Enviar</button>
     </div>
   );
 };

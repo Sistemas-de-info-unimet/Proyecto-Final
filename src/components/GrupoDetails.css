@@ -1,0 +1,124 @@
+
+
+  .section-1{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    background-color: #f0f0f0;
+  }
+
+  
+  .section-2{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    background-color: #f0f0f0;
+    padding: 50px;
+  }
+
+
+  .GroupPhoto {
+    width: 380px;
+    height: 280px;
+  }
+
+  img{
+    border-radius: 5px;
+  }
+
+  .photo-container{
+    background-color: #fdb57c;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+  .right-sec-1{
+    max-width: 380px;
+    height: 284px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:space-between;
+  }
+
+  .Paypal{
+    max-width: 380px;
+  }
+
+  .simple-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 380px;
+    max-width: 380px;
+    padding: 50px;
+  }
+
+  .simple-div-2{
+    display: flex;
+    flex-direction: column;
+    min-width: 380px;
+    max-width: 380px;
+    padding-top: 20px;
+    padding-bottom: 40px ;
+  }
+
+ .h1{
+    text-align: center;
+    padding-top: 10px;
+    padding-right: 0px;
+    color: #ff7f00;
+    text-wrap: wrap;
+    font-size: 60px;
+    padding-right: 15px;
+ }  
+ .banner{
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0;
+    padding-bottom: 40px;
+    
+}
+.button{
+    background-color:#ff7f00;
+}
+.card-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+
+.h2-d{
+    color: #ff7f00;
+}
+  
+  .simple-div-2 ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .simple-div-2 ul li {
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    font-size: medium;
+  }
+  
+  .simple-div-2 ul li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  @media (min-width: 768px) {
+    .section-2 {
+      flex-direction: row;
+      justify-content: space-around;
+    }
+  }
+  
