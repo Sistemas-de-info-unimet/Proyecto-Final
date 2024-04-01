@@ -15,9 +15,15 @@ function SearchBar() {
                 return;
             }
 
+            const string = searchTerm;
+
+            const lowercaseString = string.toLowerCase();
+            const capitalizedString = lowercaseString.charAt(0).toUpperCase() + lowercaseString.slice(1);
+
+
             const agrupacionesRef = collection(db, "Agrupaciones");
-            const q1 = query(agrupacionesRef, where("nombre", ">=", searchTerm), where("nombre", "<=", searchTerm + '\uf8ff'));
-            const q2 = query(agrupacionesRef, where("tipoDeGrupo", ">=", searchTerm), where("tipoDeGrupo", "<=", searchTerm + '\uf8ff'));
+            const q1 = query(agrupacionesRef, where("nombre", ">=", capitalizedString), where("nombre", "<=", capitalizedString + '\uf8ff'));
+            const q2 = query(agrupacionesRef, where("tipoDeGrupo", ">=", capitalizedString), where("tipoDeGrupo", "<=", capitalizedString + '\uf8ff'));
 
             const [querySnapshot1, querySnapshot2] = await Promise.all([getDocs(q1), getDocs(q2)]);
             const results1 = querySnapshot1.docs.map(doc => ({ id: doc.id, ...doc.data() }));
