@@ -9,7 +9,15 @@ import { getDocs } from 'firebase/firestore';
 
 
 export default function AdminDashBoard(){
-    
+    const [showPopup, setShowPopup] = useState(false);
+
+    const handleShowPopup = () => {
+      setShowPopup(true);
+    };
+  
+    const handleClose = () => {
+      setShowPopup(false);
+    };
 
         const [selectedOption, setSelectedOption] = useState('');
 
@@ -39,8 +47,8 @@ export default function AdminDashBoard(){
     const [groups, setGroups] = useState([]);
     //FUNCIONES COMBOBOX
     const [selectagru,setselectagru] = useState('');
-
-    // eliminar documento
+    const [idagru,setidagru] = useState('');
+    
     async function eliminarDocumentoFirestore(nombre) {
         console.log(nombre)
          
@@ -69,7 +77,8 @@ export default function AdminDashBoard(){
 
     }
 
-    //handlechange combobox
+
+
     const handleChange = (e) => {
         setselectagru(e.target.value);
         
@@ -87,7 +96,7 @@ export default function AdminDashBoard(){
     //FIN FUNCIONES COMBOBOX
 
 
-      //funcion validar que se este pasando una imagen
+
     async function validateImageUrl(url) {
         // Expresión regular para URLs de imágenes
         const regex = /(http|https):\/\/[a-zA-Z0-9-\.]+\.[a-zA-Z]{2,7}(:[0-9]{1,5})?(\/.*)?\.(jpg|jpeg|png|gif|bmp|svg)/;
@@ -116,10 +125,13 @@ export default function AdminDashBoard(){
       function validateEmail(email) {
         const regex = /^[\w-.]+@unimet\.edu\.ve$/; 
         return regex.test(email);
-    }
+      }
 
-    //crear grupo
     const handleCreateGroup = async (groupName, mission, vision, contactEmail, groupType, active, description, photo) =>{
+
+        
+       
+
 
         const isValidEmail = validateEmail(contactEmail)
         if (!isValidEmail){
@@ -140,8 +152,8 @@ export default function AdminDashBoard(){
                 return;
             }
 
+
             const currentState = active==true? "activo":"desactivo"
-            
             // Crea una referencia a la colección "Agrupaciones"
             const collectionRef = collection(db, "Agrupaciones");
 
@@ -231,11 +243,38 @@ export default function AdminDashBoard(){
                         
                         </select>
             <div className='buttonsContainer'>
-                <button className="UpdateButton" >Editar</button>
+                <button className="UpdateButton" onClick={handleShowPopup}>Editar</button>
+
                 <button className="DeleteButton" onClick={() => eliminarDocumentoFirestore(selectagru)}>Eliminar</button>
+                <br></br>
+                <div>
+                {showPopup && (
+                    <div className="popup">
+                    <form>
+                        <p>Nombre</p>
+                        <input type='text'></input>
+                        <p>Descripción</p>
+                        <input type='text'></input>
+                        <p>Contacto</p>
+                        <input type='text'></input>
+                        <p>Misión</p>
+                        <input type='text'></input>
+                        <p>Visión</p>
+                        <input type='text'></input>
+                        <div>
+                            <p>AQUI VAN LOS ESTADOS</p>
+                        </div>
+
+                    </form>
+                    <button onClick={handleClose}>Cancelar</button>
+                    </div>
+                )}
+                </div>
             </div>
         </div>
 
+
+      
     </div>
 
     </>
