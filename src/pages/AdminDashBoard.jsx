@@ -19,6 +19,7 @@ export default function AdminDashBoard(){
       setShowPopup(false);
     };
 
+
         const [selectedOption, setSelectedOption] = useState('');
         const [selectedOption1, setSelectedOption1] = useState('');
 
@@ -39,6 +40,15 @@ export default function AdminDashBoard(){
     const [groupType, setGroupeType] = useState("")
     const [active, setActive] = useState(false)
     const [description, setDescription] = useState("")
+
+    //handles editar
+    const [newName, setNewName] = useState("")
+    const [newMission, setNewMission] = useState("")
+    const [newVision, setNewVision] = useState("")
+    const [newContact, setNewContact] = useState("")
+    const [newType, setNewType] = useState("")
+    const [newActive, setNewActive] = useState(false)
+    const [newDescription, setNewDescription] = useState("")
 
     //*handles
     const handleName = (e) =>{setGroupName(e.target.value)}
@@ -72,11 +82,29 @@ export default function AdminDashBoard(){
               // Delete the document
               await deleteDoc(doc.ref);
               console.log("Documento eliminado correctamente");
+              Swal.fire({
+                title: 'Listo',
+                text: 'Grupo eliminado exitosamente',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
             } else {
               console.log(`No se encontró ningún documento con nombre: ${nombre}`);
+              Swal.fire({
+                title: '¡Error!',
+                text: `No se encontro ningun grupo con nombre: ${nombre}`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
             }
           } catch (error) {
             console.error('Error al eliminar el documento:', error);
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Error al eliminar grupo',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
           }
         
 
@@ -157,29 +185,64 @@ export default function AdminDashBoard(){
                 return;
             }
 
+            try {
+                const collectionRef = collection(db, "Agrupaciones");
+            
+                // Create a query to check if a document with the same name already exists
+                const querySnapshot = await getDocs(
+                  query(collectionRef, where("nombre", "==", groupName))
+                );
+            
+                if (querySnapshot.size > 0) {
+                  // Document already exists
+                  console.log(`Ya existe un documento con nombre: ${groupName}`);
+                  Swal.fire({
+                    title: '¡Error!',
+                    text: `Ya existe un grupo con nombre:  ${groupName}`,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                    })
+                  return;
+                }
+            
+                // Create a new document with the provided data
+                const currentState = active==true? "activo":"desactivo"
 
-            const currentState = active==true? "activo":"desactivo"
-            // Crea una referencia a la colección "Agrupaciones"
-            const collectionRef = collection(db, "Agrupaciones");
+                // Crea una referencia al nuevo documento dentro de la colección
+                const docRef = doc(collectionRef);
 
-            // Crea una referencia al nuevo documento dentro de la colección
-            const docRef = doc(collectionRef);
+                // Establece los datos del documento
+                await setDoc(docRef, {
+                afiliados: [],
+                comentarios: [],
+                contacto: contactEmail,
+                descripcion: description,
+                estado: currentState,
+                foto: 'https://cdn-icons-png.flaticon.com/512/25/25437.png',
+                mision: mission,
+                vision: vision,
+                nombre: groupName,
+                tipoDeGrupo: groupType,
+                });
 
-            // Establece los datos del documento
-            await setDoc(docRef, {
-            afiliados: [],
-            comentarios: [],
-            contacto: contactEmail,
-            descripcion: description,
-            estado: currentState,
-            foto: 'https://cdn-icons-png.flaticon.com/512/25/25437.png',
-            mision: mission,
-            vision: vision,
-            nombre: groupName,
-            tipoDeGrupo: groupType,
-            });
-
+                Swal.fire({
+                    title: 'Listo',
+                    text: 'Grupo Creado',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                })
+            } catch (error) {
+                console.error('Error al crear el documento:', error);
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Error al crear el grupo',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                    })
+            }
     }
+
+
 
     const createGroup = (e) =>{
         e.preventDefault()
@@ -241,9 +304,7 @@ export default function AdminDashBoard(){
                             <option key={group.nombre} value={group.nombre} >
                             {group.nombre}
                             </option>
-                            
-                            
-                            
+                               
                         ))}
                         
                         </select>
