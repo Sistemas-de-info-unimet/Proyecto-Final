@@ -9,7 +9,12 @@ import { getDocs } from 'firebase/firestore';
 
 
 export default function AdminDashBoard(){
+        const [selectedOption, setSelectedOption] = useState('');
 
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value);
+    };
+  
     const UnimetLogo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfUjUIUOUr2zEwuhLh4Q_qziqXtIHwEyyMEwRXsK34aQ&s"
     
     const [groupName, setGroupName] = useState("")
@@ -194,11 +199,11 @@ export default function AdminDashBoard(){
             <div>
                 <p>Estado:</p>
                 <div className='radioContainer'>
-                    <input type="radio" name="isActive" id="active" value={true} onChange={handleActive} checked={active===true}/>
+                    <input type="radio" name="isActive" id="active" value="activo" onChange={handleOptionChange} checked={selectedOption === 'activo'}/>
                     <label htmlFor='active'>Activo</label>
                 </div>
                 <div className="radioContainer">
-                    <input type="radio" name="isActive" id="notActive" value={false} onChange={handleActive} checked={active===false}/>
+                    <input type="radio" name="isActive" id="notActive" value="desactivo" onChange={handleOptionChange} checked={selectedOption === 'desactivo'}/>
                     <label htmlFor='notActive'>Desactivo</label>
                 </div>
             </div>
@@ -211,8 +216,7 @@ export default function AdminDashBoard(){
                 <input type="text" value={groupType} onChange={handleGroupType} required/>
             </div>
             </div>
-
-            <button type="submit" value="Crear agrupación" id='createG' />
+            <button type="submit" value="Crear agrupación" id='createG'>Crear grupo</button>
         </form>
         <hr className="line" />
         <div className="ModifySeccion">
@@ -233,6 +237,7 @@ export default function AdminDashBoard(){
                 <button className="DeleteButton">Eliminar</button>
             </div>
         </div>
+
     </div>
 
     </>
