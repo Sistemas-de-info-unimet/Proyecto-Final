@@ -17,6 +17,7 @@ const AddComment = ({id}) => {
           comment: comment,
         }),
       });
+      alert("Comentario enviado exitosamente");
   };
   return (
     <div>
