@@ -20,9 +20,14 @@ export default function AdminDashBoard(){
     };
 
         const [selectedOption, setSelectedOption] = useState('');
+        const [selectedOption1, setSelectedOption1] = useState('');
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
+    };
+  
+    const handleOptionChange1 = (event) => {
+        setSelectedOption1(event.target.value);
     };
   
     const UnimetLogo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfUjUIUOUr2zEwuhLh4Q_qziqXtIHwEyyMEwRXsK34aQ&s"
@@ -246,6 +251,7 @@ export default function AdminDashBoard(){
                 <button className="UpdateButton" onClick={handleShowPopup}>Editar</button>
 
                 <button className="DeleteButton" onClick={() => eliminarDocumentoFirestore(selectagru)}>Eliminar</button>
+                </div>
                 <br></br>
                 <div>
                 {showPopup && (
@@ -262,15 +268,23 @@ export default function AdminDashBoard(){
                         <p>Visión</p>
                         <input type='text'></input>
                         <div>
-                            <p>AQUI VAN LOS ESTADOS</p>
-                        </div>
+                <p>Estado:</p>
+                <div className='radioContainer'>
+                    <input type="radio" name="isActive" id="active" value="activo" onChange={handleOptionChange1} checked={selectedOption1 === 'activo'}/>
+                    <label htmlFor='active'>Activo</label>
+                </div>
+                <div className="radioContainer">
+                    <input type="radio" name="isActive" id="notActive" value="desactivo" onChange={handleOptionChange1} checked={selectedOption1 === 'desactivo'}/>
+                    <label htmlFor='notActive'>Desactivo</label>
+                </div>
+            </div>
 
                     </form>
                     <button onClick={handleClose}>Cancelar</button>
                     </div>
                 )}
                 </div>
-            </div>
+
         </div>
 
 
