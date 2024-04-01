@@ -31,6 +31,36 @@ export default function AdminDashBoard(){
     const handleDescription = (e) =>{setDescription(e.target.value)}
     const handlePhoto = (e) =>{setPhoto(e.target.value)}
 
+    async function validateImageUrl(url) {
+        // Expresión regular para URLs de imágenes
+        const regex = /(http|https):\/\/[a-zA-Z0-9-\.]+\.[a-zA-Z]{2,7}(:[0-9]{1,5})?(\/.*)?\.(jpg|jpeg|png|gif|bmp|svg)/;
+      
+        // Validar la URL con la expresión regular
+        const isValidUrl = regex.test(url);
+      
+        // Si la URL es válida, realizar una solicitud HTTP para verificar que la imagen existe
+        if (isValidUrl) {
+          try {
+            const response = await fetch(url, {
+              method: "HEAD",
+            });
+            return response.status === 200;
+          } catch (error) {
+            // Manejar el error de la solicitud HTTP
+            console.error("Error al verificar la URL de la imagen:", error);
+            return false;
+          }
+        }
+      
+        // La URL no es válida o la imagen no existe
+        return false;
+      }
+
+      function validateEmail(email) {
+        const regex = /^[\w-.]+@unimet\.edu\.ve$/; 
+        return regex.test(email);
+      }
+
     const handleCreateGroup = async (groupName, mission, vision, contactEmail, groupType, active, description, photo) =>{
         const isValidEmail = validateEmail(contactEmail)
         if (!isValidEmail){
@@ -42,6 +72,15 @@ export default function AdminDashBoard(){
             })
             return;
         }
+
+            //validamos foto
+            const isValidUrl = validateImageUrl(photo);
+            if (!isValidUrl) {
+                // Mostrar un mensaje de error al usuario
+                console.error("La URL de la imagen no es válida");
+                return;
+            }
+
 
             const currentState = active==true? "activo":"desactivo"
             // Crea una referencia a la colección "Agrupaciones"
@@ -57,7 +96,7 @@ export default function AdminDashBoard(){
             contacto: contactEmail,
             descripcion: description,
             estado: currentState,
-            foto: photo,
+            foto: 'https://cdn-icons-png.flaticon.com/512/25/25437.png',
             mision: mission,
             vision: vision,
             name: groupName,
@@ -72,10 +111,6 @@ export default function AdminDashBoard(){
         handleCreateGroup(groupName, mission, vision, contactEmail, groupType, active, description)
     }
     
-    function validateEmail(email) {
-        const regex = /^[\w-.]+@unimet\.edu\.ve$/; 
-        return regex.test(email);
-      }
     
     return (
     <>
@@ -119,10 +154,6 @@ export default function AdminDashBoard(){
             <div>
                 <p>Tipo de agrupación</p>
                 <input type="text" value={groupType} onChange={handleGroupType} required/>
-            </div>
-            <div>
-                <p>Selecione imagen(es)</p>
-                <input type="text" value={photo} onChange={handlePhoto} required/>
             </div>
             </div>
 
