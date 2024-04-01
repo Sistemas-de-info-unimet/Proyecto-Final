@@ -127,6 +127,12 @@ function GrupoDetails() {
                   </ul>
                 </div>
                 <AddComment id={id}/>
+                <h3>COMENTARIOS:</h3>
+                <ul>
+                {agrupacion.comentarios.map((content, index) => (
+                <li key={index}>{content.comment} por, {content.nombre}</li>
+              ))}
+                </ul>
                 <PayPalButtons
                   createOrder={(data, actions) => {
                     return actions.order.create({
