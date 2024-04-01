@@ -1,0 +1,110 @@
+*{
+    font-family: "Inter-Bold", Helvetica;
+}
+.DashboardHeader{
+    background-color: #FF7F01;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.DashboardHeader img{
+    width: 200px;
+    height: 150px;
+}
+
+.GroupSection{
+    margin-top: 3em;
+}
+.conainerAdminImput{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.AdminInfoSeccion input{
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 15px;
+    border: 1px solid #FFF;
+    background: rgba(253, 235, 218, 0.30);
+    width: 40%;
+}
+
+.GroupsSection input{
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 15px;
+    border: 1px solid #FFF;
+    background: rgba(253, 235, 218, 0.30);
+    width: 40%;
+}
+
+
+.groupContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.GroupsSection button{
+    display: flex;
+    justify-content: center;
+    border-width: 1px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #FF7F01;
+    color: #FFF;
+    margin-left: 3em;
+    margin-bottom: 2em;
+}
+
+.AdminInfoSeccion button{
+    display: flex;
+    justify-content: center;
+    border-width: 1px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #FF7F01;
+    color: #FFF;
+    margin-left: 3em;
+    margin-bottom: 2em;
+}
+
+
+.AdminInfoSeccion p{
+    margin-left: 3em;
+}
+
+.GroupsSection p{
+    margin-left: 3em;
+}
+
+.line{
+    border-bottom: 1px wheat solid;
+}
+#createG{
+    display: flex;
+    justify-content: center;
+    border-width: 1px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #FF7F01;
+    color: #FFF;
+    margin-left: 3em;
+    margin-bottom: 2em;
+    height: 50px;
+}
+.radioContainer{
+    display: flex;
+    align-items: center;
+    align-content: space-around;
+}
+#modify{
+    margin-left: 3em;
+}
+.buttonsContainer{
+    display: flex;
+    align-items:flex-start;
+}

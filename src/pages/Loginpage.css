@@ -241,4 +241,18 @@ body{
     height: 100%; 
   }
 
+  @media (max-width: 767px) {
+    .bt-crearc {
+      font-size: 11px;
+      width: fit-content;
+      height: fit-content;
+    }
+    .aun-ntc {
+        font-size: 12px;
  
+      }
+    .parrafo-img {
+        font-size: 13px;
+ 
+      }
+  }
