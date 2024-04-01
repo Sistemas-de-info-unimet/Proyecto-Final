@@ -9,6 +9,11 @@ import AdminDashBoard  from "./pages/AdminDashBoard";
 import GrupoDetails from "./components/GrupoDetails";
 
 
+
+
+
+
+
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -42,5 +47,6 @@ export const router = createBrowserRouter([
     {
         path: '/Grupo/:id',
         element: <GrupoDetails />
-    }
+    },
+    
 ])

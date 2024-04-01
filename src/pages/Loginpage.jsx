@@ -1,13 +1,40 @@
 import "./Loginpage.css"
 import { useNavigate } from 'react-router-dom';
-import React, {useState} from "react";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../Firebase";
 import {doc, getDoc} from "firebase/firestore";
 import { db } from "../Firebase";
 import Swal from 'sweetalert2';
+import { useState, useEffect } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
 
 export default function Loginpage() {
+    
+    const [groups, setGroups] = useState([]);
+    //FUNCIONES COMBOBOX
+    const [selectagru,setselectagru] = useState('');
+
+    const handleChange = (e) => {
+        setselectagru(e.target.value);
+
+    
+      };
+
+      useEffect(() => {
+        const fetchGroups = async () => {
+          const querySnapshot = await getDocs(collection(db, "Agrupaciones"));
+          const groupsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setGroups(groupsData);
+        };
+    
+        fetchGroups();
+      }, []);
+    //FIN FUNCIONES COMBOBOX
+
+
+
+
+
     const navigate = useNavigate();
 
     const handleButtonClick = () => {
@@ -100,6 +127,15 @@ return (
       </div>
     </div>
   </div>
+  {/*COMBO BOXXXXXDX*/}
+  <select value={selectagru} onChange={handleChange}>
+                {groups.map((group) => (
+                    <option key={group.nombre} value={group.nombre}>
+                    {group.nombre}
+                    </option>
+                ))}
+                </select>
+    {/*COMBO BOXXXXXDX*/}
 </div>
     );
 
