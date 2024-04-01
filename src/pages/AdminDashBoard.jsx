@@ -9,6 +9,8 @@ import { getDocs } from 'firebase/firestore';
 
 
 export default function AdminDashBoard(){
+    
+
         const [selectedOption, setSelectedOption] = useState('');
 
     const handleOptionChange = (event) => {
@@ -216,7 +218,7 @@ export default function AdminDashBoard(){
                 <input type="text" value={groupType} onChange={handleGroupType} required/>
             </div>
             </div>
-            <button type="submit" value="Crear agrupación" id='createG'>Crear grupo</button>
+            <button type="submit" value="Crear agrupación" id='createG' >Crear grupo</button>
         </form>
         <hr className="line" />
         <div className="ModifySeccion">
