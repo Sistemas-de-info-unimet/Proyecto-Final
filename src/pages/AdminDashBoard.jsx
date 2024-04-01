@@ -41,15 +41,6 @@ export default function AdminDashBoard(){
     const [active, setActive] = useState(false)
     const [description, setDescription] = useState("")
 
-    //handles editar
-    const [newName, setNewName] = useState("")
-    const [newMission, setNewMission] = useState("")
-    const [newVision, setNewVision] = useState("")
-    const [newContact, setNewContact] = useState("")
-    const [newType, setNewType] = useState("")
-    const [newActive, setNewActive] = useState(false)
-    const [newDescription, setNewDescription] = useState("")
-
     //*handles
     const handleName = (e) =>{setGroupName(e.target.value)}
     const handleMission = (e ) =>{setMission(e.target.value)}
@@ -58,6 +49,23 @@ export default function AdminDashBoard(){
     const handleGroupType = (e) =>{setGroupeType(e.target.value)}
     const handleActive = (e) =>{setActive(e.target.checked)}
     const handleDescription = (e) =>{setDescription(e.target.value)}
+
+    const [newName, setNewName] = useState("")
+    const [newMission, setNewMission] = useState("")
+    const [newVision, setNewVision] = useState("")
+    const [newContact, setNewContact] = useState("")
+    const [newType, setNewType] = useState("")
+    const [newActive, setNewActive] = useState(false)
+    const [newDescription, setNewDescription] = useState("")
+    
+    //*handles
+    const handleNewName = (e) =>{setNewName(e.target.value)}
+    const handleNewMission = (e ) =>{setNewMission(e.target.value)}
+    const handleNewVision = (e)=> {setNewVision(e.target.value)} 
+    const handleNewContact = (e) =>{setNewContact(e.target.value)}
+    const handleNewType = (e) =>{setNewType(e.target.value)}
+    const handleNewActive = (e) =>{setNewActive(e.target.checked)}
+    const handleNewDescription = (e) =>{setNewDescription(e.target.value)}
     
     const [groups, setGroups] = useState([]);
     //FUNCIONES COMBOBOX
@@ -317,17 +325,19 @@ export default function AdminDashBoard(){
                 <div>
                 {showPopup && (
                     <div className="popup">
-                    <form>
+                    <form action="" className="EditGroupForm" onSubmit={editGroup}>
                         <p>Nombre</p>
-                        <input type='text'></input>
+                        <input type='text' value={newName} onChange={handleNewName} required></input>
                         <p>Descripción</p>
-                        <input type='text'></input>
+                        <input type='text' required value={newDescription} onChange={handleNewDescription}></input>
                         <p>Contacto</p>
-                        <input type='text'></input>
+                        <input type='text' value={newContact} onChange={handleNewContact} required></input>
                         <p>Misión</p>
-                        <input type='text'></input>
+                        <input type='text' required value={newMission} onChange={handleNewMission}></input>
                         <p>Visión</p>
-                        <input type='text'></input>
+                        <input type='text' required value={newVision} onChange={handleNewVision}></input>
+                        <p>Tipo</p>
+                        <input type='text' value={newType} onChange={handleNewType} required></input>
                         <div>
                 <p>Estado:</p>
                 <div className='radioContainer'>
@@ -341,6 +351,7 @@ export default function AdminDashBoard(){
             </div>
 
                     </form>
+                    <button type="submit" value="Editar Agrupacion" id='editG' >Editar Agrupación</button>
                     <button onClick={handleClose}>Cancelar</button>
                     </div>
                 )}
