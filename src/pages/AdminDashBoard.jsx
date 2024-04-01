@@ -38,7 +38,6 @@ export default function AdminDashBoard(){
     const [vision, setVision] = useState("")
     const [contactEmail, setContactEmail] = useState("")
     const [groupType, setGroupeType] = useState("")
-    const [active, setActive] = useState(false)
     const [description, setDescription] = useState("")
 
     //*handles
@@ -47,7 +46,6 @@ export default function AdminDashBoard(){
     const handleVision = (e)=> {setVision(e.target.value)} 
     const handleContactEmail = (e) =>{setContactEmail(e.target.value)}
     const handleGroupType = (e) =>{setGroupeType(e.target.value)}
-    const handleActive = (e) =>{setActive(e.target.checked)}
     const handleDescription = (e) =>{setDescription(e.target.value)}
 
     const [newName, setNewName] = useState("")
@@ -55,7 +53,6 @@ export default function AdminDashBoard(){
     const [newVision, setNewVision] = useState("")
     const [newContact, setNewContact] = useState("")
     const [newType, setNewType] = useState("")
-    const [newActive, setNewActive] = useState(false)
     const [newDescription, setNewDescription] = useState("")
     
     //*handles
@@ -64,13 +61,11 @@ export default function AdminDashBoard(){
     const handleNewVision = (e)=> {setNewVision(e.target.value)} 
     const handleNewContact = (e) =>{setNewContact(e.target.value)}
     const handleNewType = (e) =>{setNewType(e.target.value)}
-    const handleNewActive = (e) =>{setNewActive(e.target.checked)}
     const handleNewDescription = (e) =>{setNewDescription(e.target.value)}
     
     const [groups, setGroups] = useState([]);
     //FUNCIONES COMBOBOX
     const [selectagru,setselectagru] = useState('');
-    const [idagru,setidagru] = useState('');
     
     async function eliminarDocumentoFirestore(nombre) {
         console.log(nombre)
@@ -87,15 +82,12 @@ export default function AdminDashBoard(){
               // Get the first document object from the query results
               const doc = querySnapshot.docs[0];
         
-              // Delete the document
-              await deleteDoc(doc.ref);
-              console.log("Documento eliminado correctamente");
-              Swal.fire({
-                title: 'Listo',
-                text: 'Grupo eliminado exitosamente',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            })
+              //update doc
+              await updateDoc(doc.ref, {
+                nombre: "Nuevo nombre",
+
+              });
+            
             } else {
               console.log(`No se encontró ningún documento con nombre: ${nombre}`);
               Swal.fire({
@@ -222,7 +214,7 @@ export default function AdminDashBoard(){
                 comentarios: [],
                 contacto: contactEmail,
                 descripcion: description,
-                estado: currentState,
+                estado: "activo",
                 foto: 'https://cdn-icons-png.flaticon.com/512/25/25437.png',
                 mision: mission,
                 vision: vision,
@@ -249,18 +241,72 @@ export default function AdminDashBoard(){
 
     const createGroup = (e) =>{
         e.preventDefault()
-        handleCreateGroup(groupName, mission, vision, contactEmail, groupType, active, description)
+        handleCreateGroup(groupName, mission, vision, contactEmail, groupType, selectedOption, description)
     }
 
 
 // funcion handle edit
-    const handleEditGroup = async (groupName, mission, vision, contactEmail, groupType, active, description) =>{
+    const handleEditGroup = async (nombre, newName, newMission, newVision, newContact, newType, newActive, newDescription) =>{
+        console.log("se esta ejcutnado 2")
+
+        try {
+            const collectionRef = collection(db, "Agrupaciones");
+        
+            // Create a query based on the provided name
+            const querySnapshot = await getDocs(
+              query(collectionRef, where("nombre", "==", nombre))
+            );
+        
+            if (querySnapshot.size > 0) {
+              // Get the first document object from the query results
+              const doc = querySnapshot.docs[0];
+
+              // Create a new document with the provided data
+              const currentState1 = newActive==true? "activo":"desactivo"
+        
+              await updateDoc(doc.ref,{
+                contacto: newContact,
+                descripcion: newDescription,
+                estado: "desactivo",
+                mision: newMission,
+                vision: newVision,
+                nombre: newName,
+                tipoDeGrupo: newType,
+              });
+
+              Swal.fire({
+                title: 'Listo!',
+                text: `${nombre} editado exitosamente`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+
+            } else {
+              console.log(`No se encontró ningún documento con nombre: ${nombre}`);
+              Swal.fire({
+                title: '¡Error!',
+                text: `No se encontro ningun grupo con nombre: ${nombre}`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+            }
+          } catch (error) {
+            console.error('Error al eliminar el documento:', error);
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Error al eliminar grupo',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
+          }
+
     }
 
 
-    const editGroup = (e) =>{
-        e.preventDefault()
-        handleEditGroup(groupName, mission, vision, contactEmail, groupType, active, description)
+    async function editGroup(nombre){
+
+            console.log("se esta ejecutando");
+            handleEditGroup(nombre, newName, newMission, newVision, newContact, newType, selectedOption1, newDescription);
     }
     
     return (
@@ -290,7 +336,7 @@ export default function AdminDashBoard(){
             <div>
                 <p>Estado:</p>
                 <div className='radioContainer'>
-                    <input type="radio" name="isActive" id="active" value="activo" onChange={handleOptionChange} checked={selectedOption === 'activo'}/>
+                    <input type="radio" name="isActive" id="active" value="activo" onChange={handleOptionChange} checked={selectedOption === 'activo'} required/>
                     <label htmlFor='active'>Activo</label>
                 </div>
                 <div className="radioContainer">
@@ -330,7 +376,7 @@ export default function AdminDashBoard(){
                 <div>
                 {showPopup && (
                     <div className="popup">
-                    <form action="" className="EditGroupForm" onSubmit={editGroup}>
+                    <form action="" className="EditGroupForm" onSubmit={() => editGroup(selectagru)}>
                         <p>Nombre</p>
                         <input type='text' value={newName} onChange={handleNewName} required></input>
                         <p>Descripción</p>
@@ -354,9 +400,9 @@ export default function AdminDashBoard(){
                     <label htmlFor='notActive'>Desactivo</label>
                 </div>
             </div>
-
+            <button type="submit" value="Editar Agrupacion" id='editG' >Editar Agrupación</button>
                     </form>
-                    <button type="submit" value="Editar Agrupacion" id='editG' >Editar Agrupación</button>
+                
                     <button onClick={handleClose}>Cancelar</button>
                     </div>
                 )}
