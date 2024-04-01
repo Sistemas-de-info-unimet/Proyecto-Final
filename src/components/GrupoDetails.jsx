@@ -7,7 +7,9 @@ import { auth } from '../Firebase';
 import Card from "../components/Card";
 import AddComment from './AddComment';
 import Header from './Header';
+import Footer from './Footer';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; // Importa PayPalScriptProvider y PayPalButtons
+import './GrupoDetails.css'; 
 
 function GrupoDetails() {
   const [perfilUsuario, setPerfilUsuario] = useState(null);
@@ -69,7 +71,6 @@ function GrupoDetails() {
       let nuevasSuscripciones;
 
       if (perfilUsuario && perfilUsuario.suscripciones && perfilUsuario.suscripciones.includes(id)) {
-        // Si el estudiante ya está suscrito, se remueve la agrupación de sus suscripciones
         nuevasSuscripciones = perfilUsuario.suscripciones.filter(mId => mId !== id);
         await updateDoc(userDocRef, { suscripciones: arrayRemove(id) });
         await updateDoc(doc(db, 'Agrupaciones', id), {
@@ -77,7 +78,7 @@ function GrupoDetails() {
         });
         
       } else {
-        // Si el estudiante no está suscrito, se agrega la agrupación a sus suscripciones
+
         nuevasSuscripciones = perfilUsuario ? [...perfilUsuario.suscripciones, id] : [id];
         await updateDoc(userDocRef, { suscripciones: arrayUnion(id) });
         await updateDoc(doc(db, 'Agrupaciones', id), {
@@ -85,7 +86,6 @@ function GrupoDetails() {
         });
       }
 
-      // Actualizar el estado local con las nuevas suscripciones
       setPerfilUsuario(prevPerfilUsuario => ({
         ...prevPerfilUsuario,
         suscripciones: nuevasSuscripciones
@@ -99,63 +99,78 @@ function GrupoDetails() {
     <>
       <Header />
       <PayPalScriptProvider options={{ "client-id": "ARHow9A_vOoStwsK8GMcMtN9z7KoOujFs_3Sc0zM3TFkXWGguNwsBJSdF6F3bA6aGGWxpn16XHf0r0Ej" }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div>
 
           {agrupacion && (
             <>
-              <div>
-                <h1 style={{ textAlign: 'center', color: 'white' }}>{agrupacion.nombre}</h1>
-                <img src={agrupacion.foto} style={{ width: '1480px' }}/>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '200px' }}>
-                <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254538.png" title="Descripcion" text={agrupacion.descripcion} />
+              <div className='banner'>
+                <h1 className='h1'>{agrupacion.nombre}</h1>
+                <div className='section-1'>
+                  <div className='simple-div'>
+                      <h2>Sé parte de la Agrupación</h2>
+                      <button onClick={handleSuscripcion} className='button'>
+                        {perfilUsuario && perfilUsuario.suscripciones && perfilUsuario.suscripciones.includes(id)
+                          ? 'Retirarse'
+                          : 'Unirse'}
+                      </button>
+                    </div>
+                    <div className='photo-container'>
+                    <img src={agrupacion.foto} className='GroupPhoto'/>
+                    </div>
+                  <div className='simple-div'>
+                  <h2>Colaborar con la Agrupación</h2>
+                  <PayPalButtons className='paypal'
+                    createOrder={(data, actions) => {
+                      return actions.order.create({
+                        purchase_units: [
+                          {
+                            amount: {
+                              value: '1.00',
+                            },
+                          },
+                        ],
+                      });
+                    }}
+                    onApprove={(data, actions) => {
+                      return actions.order.capture().then(function(details) {
+                        alert('Transaction completed by ' + details.payer.name.given_name);
+                      });
+                    }}
+                  />
+                  </div>
+                  </div>
+                  </div>
+              <div className='card-container'>
+                <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254538.png" title="Descripción" text={agrupacion.descripcion} />
                 <Card icon="https://cdn-icons-png.flaticon.com/128/9254/9254638.png" title="Misión" text={agrupacion.mision} />
                 <Card icon="https://cdn-icons-png.flaticon.com/128/4055/4055993.png" title="Visión" text={agrupacion.vision} />
               </div>
-              <div style={{ marginTop: '20px' }}>
-                <button onClick={handleSuscripcion}>
-                  {perfilUsuario && perfilUsuario.suscripciones && perfilUsuario.suscripciones.includes(id)
-                    ? 'Retirarse'
-                    : 'Unirse'}
-                </button>
-                <div>
-                  <h3>PARTICIPANTES:</h3>
+              <div>
+                <div className='section-2'>
+                <div className='simple-div-2'>
+                  <h2 className='h2-d'>Participantes:</h2>
                   <ul>
                     {agrupacion.afiliados.map((nombre, index) => (
                       <li key={index}>{nombre}</li>
                     ))}
                   </ul>
                 </div>
-                <AddComment id={id}/>
-                <h3>COMENTARIOS:</h3>
+                <div className='simple-div-2'>
+                <h2 className='h2-d'>Comentarios:</h2>
                 <ul>
                 {agrupacion.comentarios.map((content, index) => (
-                <li key={index}>{content.comment} por, {content.nombre}</li>
+                <li key={index}>{content.comment}, por {content.nombre}</li>
               ))}
                 </ul>
-                <PayPalButtons
-                  createOrder={(data, actions) => {
-                    return actions.order.create({
-                      purchase_units: [
-                        {
-                          amount: {
-                            value: '1.00',
-                          },
-                        },
-                      ],
-                    });
-                  }}
-                  onApprove={(data, actions) => {
-                    return actions.order.capture().then(function(details) {
-                      alert('Transaction completed by ' + details.payer.name.given_name);
-                    });
-                  }}
-                />
+                <AddComment id={id}/>
+                </div>
+              </div>
               </div>
             </>
           )}
         </div>
       </PayPalScriptProvider>
+      <Footer/>
     </>
   );
 }
