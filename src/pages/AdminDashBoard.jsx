@@ -36,9 +36,39 @@ export default function AdminDashBoard(){
     const [groups, setGroups] = useState([]);
     //FUNCIONES COMBOBOX
     const [selectagru,setselectagru] = useState('');
+    const [idagru,setidagru] = useState('');
+    
+    async function eliminarDocumentoFirestore(id) {
+        Swal.fire({
+            title: {id},
+            text: 'El correo electrónico ingresado no es válido',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        })
+        try {
+          // Obtener la referencia a la colección
+          const collectionRef = db.collection('Agrupaciones');
+      
+          // Obtener la referencia al documento
+          const docRef = collectionRef.doc(id);
+      
+          // Eliminar el documento
+          await docRef.delete();
+      
+          // Mostrar mensaje de éxito
+          console.log('Documento eliminado correctamente');
+        } catch (error) {
+          // Mostrar mensaje de error
+          console.error('Error al eliminar el documento:', error);
+        }
+      }
+
+
+
 
     const handleChange = (e) => {
         setselectagru(e.target.value);
+        
 
     
       };
@@ -54,29 +84,12 @@ export default function AdminDashBoard(){
       }, []);
     //FIN FUNCIONES COMBOBOX
 
+
+
     const handleCreateGroup = async (groupName, mission, vision, contactEmail, groupType, active, description, photo) =>{
 
         
-        const [groups, setGroups] = useState([]);
-        //FUNCIONES COMBOBOX
-        const [selectagru,setselectagru] = useState('');
-    
-        const handleChange = (e) => {
-            setselectagru(e.target.value);
-    
-        
-          };
-    
-          useEffect(() => {
-            const fetchGroups = async () => {
-              const querySnapshot = await getDocs(collection(db, "Agrupaciones"));
-              const groupsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-              setGroups(groupsData);
-            };
-        
-            fetchGroups();
-          }, []);
-        //FIN FUNCIONES COMBOBOX
+       
 
 
         const isValidEmail = validateEmail(contactEmail)
@@ -180,14 +193,17 @@ export default function AdminDashBoard(){
                     {/*COMBO BOXXXXXDX*/}
         <select value={selectagru} onChange={handleChange}>
                         {groups.map((group) => (
-                            <option key={group.nombre} value={group.nombre}>
+                            <option key={group.nombre} value={group.nombre} >
                             {group.nombre}
                             </option>
+                            
+                            
+                            
                         ))}
+                        
                         </select>
-            {/*COMBO BOXXXXXDX*/}
             <div className='buttonsContainer'>
-                <button className="UpdateButton">Editar</button>
+                <button className="UpdateButton" onClick={eliminarDocumentoFirestore(selectagru)}>Editar</button>
                 <button className="DeleteButton">Eliminar</button>
             </div>
         </div>
