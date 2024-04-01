@@ -1,7 +1,7 @@
 
 import Logo from '../assets/LogoOpenG.png'
 import Swal from 'sweetalert2';
-import {setDoc, doc, collection} from "firebase/firestore";
+import {setDoc, doc, collection, deleteDoc, query, where} from "firebase/firestore";
 import { db } from "../Firebase";
 import "./AdminDashBoard.css"
 import { useState, useEffect } from 'react';
@@ -19,9 +19,6 @@ export default function AdminDashBoard(){
     const [groupType, setGroupeType] = useState("")
     const [active, setActive] = useState(false)
     const [description, setDescription] = useState("")
-    const [photo, setPhoto] = useState("")
-
-    const [search, setSearch] = useState("")
 
     //*handles
     const handleName = (e) =>{setGroupName(e.target.value)}
@@ -31,41 +28,45 @@ export default function AdminDashBoard(){
     const handleGroupType = (e) =>{setGroupeType(e.target.value)}
     const handleActive = (e) =>{setActive(e.target.checked)}
     const handleDescription = (e) =>{setDescription(e.target.value)}
-    const handlePhoto = (e) =>{setPhoto(e.target.value)}
     
     const [groups, setGroups] = useState([]);
     //FUNCIONES COMBOBOX
     const [selectagru,setselectagru] = useState('');
     const [idagru,setidagru] = useState('');
     
-    async function eliminarDocumentoFirestore(id) {
-  
+    async function eliminarDocumentoFirestore(nombre) {
+        console.log(nombre)
+         
         try {
-          // Obtener la referencia a la colección
-          const collectionRef = db.collection('Agrupaciones');
-      
-          // Obtener la referencia al documento
-          const docRef = collectionRef.doc(id);
-      
-          // Eliminar el documento
-          await docRef.delete();
-      
-          // Mostrar mensaje de éxito
-          console.log('Documento eliminado correctamente');
-        } catch (error) {
-          // Mostrar mensaje de error
-          console.error('Error al eliminar el documento:', error);
-        }
-      }
+            const collectionRef = collection(db, "Agrupaciones");
+        
+            // Create a query based on the provided name
+            const querySnapshot = await getDocs(
+              query(collectionRef, where("nombre", "==", nombre))
+            );
+        
+            if (querySnapshot.size > 0) {
+              // Get the first document object from the query results
+              const doc = querySnapshot.docs[0];
+        
+              // Delete the document
+              await deleteDoc(doc.ref);
+              console.log("Documento eliminado correctamente");
+            } else {
+              console.log(`No se encontró ningún documento con nombre: ${nombre}`);
+            }
+          } catch (error) {
+            console.error('Error al eliminar el documento:', error);
+          }
+        
 
+    }
 
 
 
     const handleChange = (e) => {
         setselectagru(e.target.value);
         
-
-    
       };
 
       useEffect(() => {
@@ -159,7 +160,6 @@ export default function AdminDashBoard(){
             });
 
     }
-    const handleSearch = (e) =>{setSearch(e.target.value)}
 
     const createGroup = (e) =>{
         e.preventDefault()
@@ -229,8 +229,8 @@ export default function AdminDashBoard(){
                         
                         </select>
             <div className='buttonsContainer'>
-                <button className="UpdateButton" onClick={eliminarDocumentoFirestore(selectagru)}>Editar</button>
-                <button className="DeleteButton">Eliminar</button>
+                <button className="UpdateButton" >Editar</button>
+                <button className="DeleteButton" onClick={() => eliminarDocumentoFirestore(selectagru)}>Eliminar</button>
             </div>
         </div>
     </div>
