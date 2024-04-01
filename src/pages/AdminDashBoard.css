@@ -94,7 +94,8 @@
     color: #FFF;
     margin-left: 3em;
     margin-bottom: 2em;
-    height: 50px;
+    height: fit-content;
+    width: fit-content;
 }
 .radioContainer{
     display: flex;
