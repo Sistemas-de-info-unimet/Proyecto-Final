@@ -168,11 +168,8 @@ export default function AdminDashBoard(){
         return regex.test(email);
       }
 
+      //funcion handle create
     const handleCreateGroup = async (groupName, mission, vision, contactEmail, groupType, active, description, photo) =>{
-
-        
-       
-
 
         const isValidEmail = validateEmail(contactEmail)
         if (!isValidEmail){
@@ -250,13 +247,21 @@ export default function AdminDashBoard(){
             }
     }
 
-
-
     const createGroup = (e) =>{
         e.preventDefault()
         handleCreateGroup(groupName, mission, vision, contactEmail, groupType, active, description)
     }
-    
+
+
+// funcion handle edit
+    const handleEditGroup = async (groupName, mission, vision, contactEmail, groupType, active, description) =>{
+    }
+
+
+    const editGroup = (e) =>{
+        e.preventDefault()
+        handleEditGroup(groupName, mission, vision, contactEmail, groupType, active, description)
+    }
     
     return (
     <>
