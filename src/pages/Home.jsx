@@ -42,7 +42,7 @@ export default function Home() {
                 <Card 
                     icon="https://cdn-icons-png.flaticon.com/128/9254/9254658.png"
                     title="Objetivos"
-                    text="Fomentar el conocimiento de las agrupaciones estudiantiles de la Universidad Metropolitana y facilitar la afiliación de los estudiantes a dichos grupos mediante una aplicación web."
+                    text="Creamos cocinas que se adaptan a tu estilo y necesidades. Diseñamos espacios funcionales y modernos, con una amplia gama de materiales y acabados."
                 />
             </div>
             </div>
